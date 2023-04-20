@@ -1,12 +1,23 @@
+let _pokemonData;
+let _competitionData;
+let _pokemon1;
+let _pokemon2;
+
 async function getPokemonData() {
     const response = await fetch('./pokemonData.json');
     const data = await response.json();
     return data;
 }
 
+async function getCompetitionData() {
+    const response = await fetch('./competitions.json');
+    const data = await response.json();
+    return data;
+}
+
 async function updatePokemonData(pokemonData) {
     try {
-        const response = await fetch('./update-pokemon-data', {
+        const response = await fetch('http://localhost:3000/update-pokemon-data', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json'
@@ -21,7 +32,24 @@ async function updatePokemonData(pokemonData) {
     }
 }
 
-function calculate_elo_change(pokemon1, pokemon2, winner, competition_number){
+async function updateCompetitionData(competitionData) {
+    try {
+        const response = await fetch('http://localhost:3000/update-competition-data', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(competitionData)
+        });
+        if (!response.ok) {
+        throw new Error('Failed to write to file');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function calculateEloChange(pokemon1, pokemon2, winner, competition_number){
     // Initialize the constants
     const t1 = competition_number - pokemon1.last_game;
     const t2 = competition_number - pokemon2.last_game;
@@ -52,10 +80,10 @@ function calculate_elo_change(pokemon1, pokemon2, winner, competition_number){
     const dr2 = q/(1/(rd2*rd2) + d2) * (g1 * (s2 - e2));
 
     /* Determine new RD based on outcome */
-    rd1 = Math.pow(1/(rd1*rd1) + d1, -0.5);
-    rd2 = Math.pow(1/(rd2*rd2) + d2, -0.5);
+    const newrd1 = Math.pow(1/(rd1*rd1) + d1, -0.5);
+    const newrd2 = Math.pow(1/(rd2*rd2) + d2, -0.5);
 
-    return [[dr1, rd1], [dr2, rd2]];
+    return [[dr1, newrd1], [dr2, newrd2]];
 }
 
 function getRandomPokemon(pokemonData) {
@@ -98,14 +126,11 @@ function selectTwoPokemon(pokemonData) {
     return [firstPokemon, secondPokemon];
 }
 
-async function updateHTML() {
-    const _pokemonData = await getPokemonData();
-    const [pokemonA, pokemonB] = selectTwoPokemon(_pokemonData);
-
+async function updateHTML(pokemonA, pokemonB) {
     // Get the HTML elements by their IDs
-    const pokemon1Img = document.getElementById("pokemon1");
+    const pokemon1Img = document.getElementById("pokemon1-img");
     const pokemon1Name = document.getElementById("pokemon1-name");
-    const pokemon2Img = document.getElementById("pokemon2");
+    const pokemon2Img = document.getElementById("pokemon2-img");
     const pokemon2Name = document.getElementById("pokemon2-name");
 
     // Generate two random Pokemon and update the HTML elements
@@ -115,6 +140,62 @@ async function updateHTML() {
     pokemon2Name.innerText = pokemonB.name;
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    updateHTML();
-  });
+async function handlePokemonClick(winner, pokemon1, pokemon2, pokemonData, competitionData){
+    // Get competition number
+    const competition_number = competitionData.competition_counter;
+    
+    // Obtain new ELO and RDs
+    const elo_info = calculateEloChange(pokemon1, pokemon2, winner, competition_number);
+
+    // Make a log of the competition
+    const pokemon1Copy = {...pokemon1};
+    const pokemon2Copy = {...pokemon2};
+    const time = new Date(Date.now()).toLocaleString();
+    const comp = {
+        pokemon1: pokemon1Copy,
+        pokemon2: pokemon2Copy,
+        outcome: winner,
+        timestamp: time
+    };
+
+    // Update the values
+    pokemon1.elo += elo_info[0][0];
+    pokemon1.RD = elo_info[0][1];
+    pokemon1.last_game = competition_number;
+    pokemon2.elo += elo_info[1][0];
+    pokemon2.RD = elo_info[1][1];
+    pokemon2.last_game = competition_number;
+    
+    pokemonData[parseInt(pokemon1.id) - 1] = pokemon1;
+    pokemonData[parseInt(pokemon2.id) - 1] = pokemon2;
+    competitionData.competition_counter += 1;
+    competitionData.competition_history.push(comp);
+
+    // Update the globals
+    _pokemonData = pokemonData;
+    _competitionData = competitionData;
+
+    // Save the values
+    await updatePokemonData(pokemonData);
+    await updateCompetitionData(competitionData);
+    
+    // Choose new Pokemon
+    [_pokemon1, _pokemon2] = selectTwoPokemon(pokemonData);
+    updateHTML(_pokemon1, _pokemon2);
+}
+
+
+
+document.addEventListener("DOMContentLoaded", async function() {
+    _pokemonData = await getPokemonData();
+    _competitionData = await getCompetitionData();
+    [_pokemon1, _pokemon2] = selectTwoPokemon(_pokemonData);
+    updateHTML(_pokemon1, _pokemon2);
+
+    document.getElementById("pokemon1").addEventListener("mouseup", function() {
+        handlePokemonClick(1, _pokemon1, _pokemon2, _pokemonData, _competitionData);
+    });
+    document.getElementById("pokemon2").addEventListener("mouseup", function() {
+        handlePokemonClick(0, _pokemon1, _pokemon2, _pokemonData, _competitionData);
+    });    
+});
