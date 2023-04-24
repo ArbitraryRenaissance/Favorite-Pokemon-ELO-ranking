@@ -227,6 +227,32 @@ async function updateHTML(pokemonA, pokemonB) {
     pokemon2Name.innerText = pokemonB.name;
 }
 
+async function makeLeaderboard(leaderboard) {
+    const tableBody = document.querySelector('#leaderboard-table tbody');
+    tableBody.innerHTML = '';
+    leaderboard.forEach((entry, index) => {
+        const row = document.createElement('tr');
+        row.classList.add('lb-entry');
+
+        const rank = document.createElement('td');
+        rank.classList.add('lb-rank');
+        rank.textContent = index + 1;
+        row.appendChild(rank);
+
+        const name = document.createElement('td');
+        name.classList.add('lb-name');
+        name.textContent = entry.name;
+        row.appendChild(name);
+
+        const score = document.createElement('td');
+        score.classList.add('lb-elo');
+        score.textContent = `${entry.score} (±${entry.rd})`;
+        row.appendChild(score);
+
+        tableBody.appendChild(row);
+    });
+}
+
 async function handlePokemonClick(event, winner, pokemon1, pokemon2,
     pokemonData, competitionData) {
     // Get competition number
@@ -301,6 +327,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     _leaderboard = await getLeaderboard();
     [_pokemon1, _pokemon2] = selectTwoPokemon(_pokemonData);
     updateHTML(_pokemon1, _pokemon2);
+    makeLeaderboard(_leaderboard);
 
     document.getElementById("pokemon1").addEventListener("mouseup", function (event) {
         handlePokemonClick(event, 1, _pokemon1, _pokemon2, _pokemonData, _competitionData);
