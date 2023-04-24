@@ -59,3 +59,11 @@ h1 {
                 6px 6px 6px #000;
     transition: translateY(-30px);
 }
+
+#leaderboard-table {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px;
+}
+

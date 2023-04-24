@@ -45,6 +45,18 @@ app.post('/update-competition-data', (req, res) => {
   });
 });
 
+app.post('/update-leaderboard', (req, res) => {
+  const leaderboard = req.body;
+  fs.writeFile('leaderboard.json', JSON.stringify(leaderboard, null, 2), (error) => {
+    if (error) {
+      console.error(error);
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
+
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
 });

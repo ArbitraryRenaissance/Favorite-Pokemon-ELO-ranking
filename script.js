@@ -2,17 +2,81 @@ let _pokemonData;
 let _competitionData;
 let _pokemon1;
 let _pokemon2;
+let _leaderboard;
 
 async function getPokemonData() {
-    const response = await fetch('./pokemonData.json');
-    const data = await response.json();
-    return data;
+    try {
+      const response = await fetch('./pokemonData.json');
+      if (response.status === 404) {
+        console.log('pokemonData.json not found. Generating new file...');
+        await generatePokemonData();
+        console.log('New pokemonData.json file generated successfully.');
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
 }
 
 async function getCompetitionData() {
-    const response = await fetch('./competitions.json');
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch('./competitions.json');
+        if (response.status === 404) {
+          console.log('competitions.json not found. Generating new file...');
+          await generateCompetitionData();
+          console.log('New competitions.json file generated successfully.');
+        }
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error(error);
+      }
+}
+
+async function getLeaderboard() {
+    try {
+        const response = await fetch('./leaderboard.json');
+        if (response.status === 404) {
+            console.log('leaderboard.json not found. Generating new file...');
+            await generateLeaderboard(_pokemonData);
+            console.log('New leaderboard.json file generated successfully.');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function generatePokemonData() {
+    const response = await fetch('./pokemonData_init.json');
+    const pokemonList = await response.json();
+    await updatePokemonData(pokemonList);
+}
+
+async function generateCompetitionData() {
+    let competition_data = {
+        competition_counter: 0,
+        competition_history: []
+    };
+    await updateCompetitionData(competition_data);
+}
+
+async function generateLeaderboard(pokemonData) {
+    const sortedPokemon = [...pokemonData].sort((a, b) => b.elo - a.elo); // Sort by ELO rating
+    const topPokemon = sortedPokemon.slice(0, 10); // Get the top 10 pokemon
+
+    const leaderboard = topPokemon.map((pokemon, index) => {
+        return {
+            rank: index + 1,
+            name: pokemon.name,
+            score: pokemon.elo,
+            rd: pokemon.RD,
+        };
+    });
+    
+    await updateLeaderboard(leaderboard);
 }
 
 async function updatePokemonData(pokemonData) {
@@ -43,6 +107,23 @@ async function updateCompetitionData(competitionData) {
         });
         if (!response.ok) {
         throw new Error('Failed to write to file');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function updateLeaderboard(leaderboard) {
+    try {
+        const response = await fetch('http://localhost:3000/update-leaderboard', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(leaderboard)
+        });
+        if (!response.ok) {
+            throw new Error('Failed to write to file');
         }
     } catch (error) {
         console.error(error);
@@ -188,12 +269,12 @@ async function handlePokemonClick(event, winner, pokemon1, pokemon2,
     eloChangeEl.style.left = `${event.clientX}px`;
     document.body.appendChild(eloChangeEl);
 
-    const opacityInterval = 100 / 30;
-    const translateInterval = 30 / 1000;
+    const opacityInterval = 10 / 1000;
+    const translateInterval = event.clientY / 1000;
     let currentOpacity = 100;
-    let currentTranslateY = -30;
+    let currentTranslateY = 0;
     const intervalId = setInterval(() => {
-        currentOpacity -= opacityInterval;
+        currentOpacity -= opacityInterval * 100;
         currentTranslateY -= translateInterval;
         eloChangeEl.style.opacity = currentOpacity / 100;
         eloChangeEl.style.transform = `translateY(${currentTranslateY}px)`;
@@ -211,6 +292,7 @@ async function handlePokemonClick(event, winner, pokemon1, pokemon2,
 document.addEventListener("DOMContentLoaded", async function() {
     _pokemonData = await getPokemonData();
     _competitionData = await getCompetitionData();
+    _leaderboard = await getLeaderboard();
     [_pokemon1, _pokemon2] = selectTwoPokemon(_pokemonData);
     updateHTML(_pokemon1, _pokemon2);
 
