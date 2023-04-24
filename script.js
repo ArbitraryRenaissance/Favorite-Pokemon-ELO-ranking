@@ -76,8 +76,8 @@ async function generateLeaderboard(pokemonData) {
         return {
             rank: index + 1,
             name: pokemon.name,
-            score: pokemon.elo,
-            rd: pokemon.RD,
+            score: Math.round(pokemon.elo),
+            rd: Math.round(pokemon.RD),
         };
     });
 
@@ -288,6 +288,9 @@ async function handlePokemonClick(event, winner, pokemon1, pokemon2,
     _pokemonData = pokemonData;
     _competitionData = competitionData;
 
+    // Refresh the leaderboard
+    _leaderboard = await generateLeaderboard(pokemonData); // This also writes to leaderboard.json
+
     // Save the values
     await updatePokemonData(pokemonData);
     await updateCompetitionData(competitionData);
@@ -316,9 +319,10 @@ async function handlePokemonClick(event, winner, pokemon1, pokemon2,
         }
     }, 10);
 
-    // Choose new Pokemon
+    // Choose new Pokemon, update HTML
     [_pokemon1, _pokemon2] = selectTwoPokemon(pokemonData);
     updateHTML(_pokemon1, _pokemon2);
+    makeLeaderboard(_leaderboard);
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
