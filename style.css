@@ -52,6 +52,7 @@ h1 {
     font-weight: 900;
     color: #12c712;
     font-size: 72px;
+    pointer-events: none;
     text-shadow: -3px -3px #0c5305,
                 -3px 3px #0c5305,
                 3px -3px #0c5305,
