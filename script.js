@@ -142,7 +142,7 @@ function calculateEloChange(pokemon1, pokemon2, winner, competition_number) {
     const t2 = competition_number - pokemon2.last_game;
     const r1 = pokemon1.elo;
     const r2 = pokemon2.elo;
-    const c = 7.75;
+    const c = 1.1;
     const s1 = winner ? 1 : 0; // superfluous, actually: winner is already 0 or 1
     const s2 = 1 - s1;
 
