@@ -9,7 +9,7 @@ h1 {
     margin-bottom: 20px;
     text-align: center;
 }
-  
+
 .container {
     max-width: 1000px;
     margin: 0 auto;
@@ -17,7 +17,7 @@ h1 {
     justify-content: space-between;
     text-align: center;
 }
-  
+
 .pokemon-container {
     background-color: #444;
     text-align: center;
@@ -41,7 +41,7 @@ h1 {
     max-width: 100%;
     height: auto;
 }
-  
+
 .pokemon-name {
     font-size: 1.5em;
     font-weight: bold;
@@ -54,10 +54,10 @@ h1 {
     font-size: 72px;
     pointer-events: none;
     text-shadow: -3px -3px #0c5305,
-                -3px 3px #0c5305,
-                3px -3px #0c5305,
-                3px 3px #0c5305,
-                6px 6px 6px #000;
+        -3px 3px #0c5305,
+        3px -3px #0c5305,
+        3px 3px #0c5305,
+        6px 6px 6px #000;
     transition: translateY(-30px);
 }
 
@@ -68,3 +68,96 @@ h1 {
     padding: 20px;
 }
 
+#search-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#search-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+#searchInput {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #444; /* Change the background color */
+    color: #ddd;
+    border: 1px solid #ddd;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#searchButton {
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ddd;
+    background-color: #555; /* Change the background color */
+    border: 1px solid #555;
+    border-radius: 0;
+    cursor: pointer;
+    outline: none;
+}
+
+.suggestions {
+    position: absolute;
+    left: 0; /* Align with the left border of the search input */
+    width: 100%;
+    display: none;
+    overflow-y: auto;
+    background-color: #333;
+    border: 1px solid #ccc;
+}
+
+.suggestions ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.suggestions ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.suggestions ul li:hover {
+    background-color: #444;
+}
+
+.suggestions ul li.highlighted {
+    background-color: #444 !important;
+}
+
+/* Center the pokemonInfo container */
+#pokemonInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Center the Pokémon name */
+.pokemon-name-container {
+    text-align: center;
+}
+
+/* Style the Pokémon details container */
+.pokemon-details-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align image and info to the top */
+    width: 100%;
+}
+
+/* Style the Pokémon image container */
+.pokemon-image-container {
+    flex: 1;
+    text-align: right;
+}
+
+/* Style the Pokémon info container */
+.pokemon-info-container {
+    flex: 1;
+}

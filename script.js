@@ -333,6 +333,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     updateHTML(_pokemon1, _pokemon2);
     makeLeaderboard(_leaderboard);
 
+    const lookupPageButton = document.getElementById('lookupPageButton');
+    if (lookupPageButton) {
+        lookupPageButton.addEventListener('click', () => {
+            window.location.href = 'lookup.html';
+        });
+    }
     document.getElementById("pokemon1").addEventListener("mouseup", function (event) {
         handlePokemonClick(event, 1, _pokemon1, _pokemon2, _pokemonData, _competitionData);
     });

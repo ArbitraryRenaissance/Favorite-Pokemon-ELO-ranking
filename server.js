@@ -57,6 +57,52 @@ app.post('/update-leaderboard', (req, res) => {
   });
 });
 
+app.post('/search', (req, res) => {
+  const { name } = req.body;
+
+  fs.readFile('pokemonData.json', 'utf8', (err, data) => {
+      if (err) {
+          console.error('Error reading pokemonData.json:', err);
+          return res.status(500).send('Internal server error');
+      }
+
+      const pokemonData = JSON.parse(data);
+      const pokemon = pokemonData.find(p => p.name.toLowerCase() === name.toLowerCase());
+
+      if (pokemon) {
+          res.json({
+              name: pokemon.name,
+              id: pokemon.id,
+              png: pokemon.png,
+              elo: pokemon.elo,
+              RD: pokemon.RD,
+              last_game: pokemon.last_game
+          });
+      } else {
+          res.status(404).send('Pokemon not found');
+      }
+  });
+});
+
+app.post('/autocomplete', (req, res) => {
+  const { term } = req.body;
+
+  fs.readFile('pokemonData.json', 'utf8', (err, data) => {
+      if (err) {
+          console.error('Error reading pokemonData.json:', err);
+          return res.status(500).send('Internal server error');
+      }
+
+      const pokemonData = JSON.parse(data);
+      const suggestions = pokemonData
+          .filter(p => p.name.toLowerCase().startsWith(term.toLowerCase()))
+          .map(p => p.name)
+          .slice(0, 5); // Limit the number of suggestions
+
+      res.json(suggestions);
+  });
+});
+
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
 });
