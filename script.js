@@ -70,9 +70,9 @@ async function generateCompetitionData() {
 
 async function generateLeaderboard(pokemonData) {
     const sortedPokemon = [...pokemonData].sort((a, b) => b.elo - a.elo); // Sort by ELO rating
-    const topPokemon = sortedPokemon.slice(0, 10); // Get the top 10 pokemon
+    //const topPokemon = sortedPokemon.slice(0, 10); // Get the top 10 pokemon
 
-    const leaderboard = topPokemon.map((pokemon, index) => {
+    const leaderboard = sortedPokemon.map((pokemon, index) => {
         return {
             rank: index + 1,
             name: pokemon.name,
@@ -228,9 +228,10 @@ async function updateHTML(pokemonA, pokemonB) {
 }
 
 async function makeLeaderboard(leaderboard) {
+    const topPokemon = leaderboard.slice(0, 10); // Get the top 10 pokemon
     const tableBody = document.querySelector('#leaderboard-table tbody');
     tableBody.innerHTML = '';
-    leaderboard.forEach((entry, index) => {
+    topPokemon.forEach((entry, index) => {
         const row = document.createElement('tr');
         row.classList.add('lb-entry');
 

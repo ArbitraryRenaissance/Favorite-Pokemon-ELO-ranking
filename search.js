@@ -10,7 +10,9 @@ document.getElementById('mainPageButton').addEventListener('click', () => {
 // Search function
 async function performSearch() {
     const searchInputValue = searchInput.value;
-    const pokemonInfoDiv = document.getElementById('pokemonInfo');
+    const pokemonInfoDiv = document.getElementById('search-info-wrapper');
+    const pokemonImageDiv = document.getElementById('search-pokemon-image-container');
+    const pokemonNameDiv = document.getElementById('search-pokemon-name-container');
 
     if (!searchInputValue) {
         alert('Please enter a Pokemon name.');
@@ -28,20 +30,49 @@ async function performSearch() {
 
         if (response.ok) {
             const pokemon = await response.json();
-            pokemonInfoDiv.innerHTML = `
-            <div class="pokemon-name-container">
-                <h2 id="pokemonName">${pokemon.name}</h2>
-            </div>
-            <div class="pokemon-details-container">
-                <div class="pokemon-image-container">
-                    <img id="pokemonImage" src="${pokemon.png}" alt="${pokemon.name}" />
-                </div>
-                <div class="pokemon-info-container">
-                    <p id="pokemonElo">Rating: ${Math.round(pokemon.elo)} (± ${Math.round(pokemon.RD)})</p>
-                    <!-- Add other info elements here -->
-                </div>
-            </div>
+            pokemonNameDiv.innerHTML = `
+            <h2 id="pokemonName">${pokemon.name}</h2>
             `;
+            pokemonImageDiv.innerHTML = `
+            <img id="pokemonImage" src="${pokemon.png}" alt="${pokemon.name}" />
+            `;
+            pokemonInfoDiv.innerHTML = `
+            <p id="pokemonElo">ELO Rating: ${Math.round(pokemon.elo)} (± ${Math.round(pokemon.RD)})</p>
+            <p id="pokemonRanking">Current ranking: ${pokemon.rank}</p>
+            `;
+
+            // Load competition history
+            const competitionHistoryBody = document.getElementById('competitionHistoryBody');
+            competitionHistoryBody.innerHTML = ''; // Clear existing table rows
+
+            const competitionHistoryDiv = document.querySelector('.competition-history');
+            competitionHistoryDiv.style.display = 'block';
+
+            // Reverse the array to display in reverse chronological order
+            const reversedMatchups = pokemon.matchups.slice().reverse();
+
+            reversedMatchups.forEach(matchup => {
+                const row = document.createElement('tr');
+                
+                const isWin = (matchup.pokemon1.name === pokemon.name && matchup.outcome === 1) || (matchup.pokemon2.name === pokemon.name && matchup.outcome === 0);
+                
+                row.classList.add(isWin ? 'win' : 'loss');
+
+                const outcomeCell = document.createElement('td');
+                outcomeCell.textContent = isWin ? 'Win' : 'Loss';
+
+                const pokemonCell = document.createElement('td');
+                pokemonCell.textContent = pokemon.name;
+
+                const opponentCell = document.createElement('td');
+                opponentCell.textContent = matchup.pokemon1.name === pokemon.name ? matchup.pokemon2.name : matchup.pokemon1.name;
+
+                row.appendChild(pokemonCell);
+                row.appendChild(opponentCell);
+                row.appendChild(outcomeCell);
+
+                competitionHistoryBody.appendChild(row);
+            });
         } else {
             alert('Pokemon not found.');
         }

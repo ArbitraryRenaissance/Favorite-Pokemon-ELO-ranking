@@ -83,7 +83,8 @@ h1 {
     width: 300px;
     padding: 10px;
     font-size: 16px;
-    background-color: #444; /* Change the background color */
+    background-color: #444;
+    /* Change the background color */
     color: #ddd;
     border: 1px solid #ddd;
     outline: none;
@@ -95,7 +96,8 @@ h1 {
     font-size: 16px;
     font-weight: bold;
     color: #ddd;
-    background-color: #555; /* Change the background color */
+    background-color: #555;
+    /* Change the background color */
     border: 1px solid #555;
     border-radius: 0;
     cursor: pointer;
@@ -104,7 +106,8 @@ h1 {
 
 .suggestions {
     position: absolute;
-    left: 0; /* Align with the left border of the search input */
+    left: 0;
+    /* Align with the left border of the search input */
     width: 100%;
     display: none;
     overflow-y: auto;
@@ -147,7 +150,8 @@ h1 {
 .pokemon-details-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align image and info to the top */
+    align-items: flex-start;
+    /* Align image and info to the top */
     width: 100%;
 }
 
@@ -160,4 +164,27 @@ h1 {
 /* Style the Pokémon info container */
 .pokemon-info-container {
     flex: 1;
+}
+
+.competition-history {
+    display: none;
+}
+.competition-history table {
+    max-width: 550px;
+    border-collapse: collapse;
+}
+
+.competition-history th,
+.competition-history td {
+    border: 1px solid #ccc;
+    text-align: left;
+    padding: 8px;
+}
+
+.competition-history tr.win {
+    background-color: #2d6d1e;
+}
+
+.competition-history tr.loss {
+    background-color: #66211d;
 }

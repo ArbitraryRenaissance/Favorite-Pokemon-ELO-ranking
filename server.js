@@ -61,28 +61,58 @@ app.post('/search', (req, res) => {
   const { name } = req.body;
 
   fs.readFile('pokemonData.json', 'utf8', (err, data) => {
-      if (err) {
-          console.error('Error reading pokemonData.json:', err);
+    if (err) {
+      console.error('Error reading pokemonData.json:', err);
+      return res.status(500).send('Internal server error');
+    }
+
+    const pokemonData = JSON.parse(data);
+    const pokemon = pokemonData.find(p => p.name.toLowerCase() === name.toLowerCase());
+
+    if (pokemon) {
+      fs.readFile('leaderboard.json', 'utf8', (err, data) => {
+        if (err) {
+          console.error('Error reading leaderboard.json:', err);
           return res.status(500).send('Internal server error');
-      }
+        }
 
-      const pokemonData = JSON.parse(data);
-      const pokemon = pokemonData.find(p => p.name.toLowerCase() === name.toLowerCase());
+        const leaderboard = JSON.parse(data);
+        const entry = leaderboard.find(p => p.name.toLowerCase() === name.toLowerCase());
 
-      if (pokemon) {
-          res.json({
+        if (entry) {
+          fs.readFile('competitions.json', 'utf8', (err, data) => {
+            if (err) {
+              console.error('Error reading competitions.json:', err);
+              return res.status(500).send('Internal server error');
+            }
+
+            const competitions = JSON.parse(data);
+            const matchups = competitions.competition_history.filter(p => 
+              p.pokemon1.name.toLowerCase() === name.toLowerCase() ||
+              p.pokemon2.name.toLowerCase() === name.toLowerCase()
+            );
+
+            res.json({
               name: pokemon.name,
               id: pokemon.id,
               png: pokemon.png,
               elo: pokemon.elo,
               RD: pokemon.RD,
-              last_game: pokemon.last_game
+              last_game: pokemon.last_game,
+              rank: entry.rank,
+              matchups: matchups
+            });
           });
-      } else {
-          res.status(404).send('Pokemon not found');
-      }
+        } else {
+          res.status(404).send('Pokemon not found in leaderboard');
+        }
+      });
+    } else {
+      res.status(404).send('Pokemon not found');
+    }
   });
 });
+
 
 app.post('/autocomplete', (req, res) => {
   const { term } = req.body;

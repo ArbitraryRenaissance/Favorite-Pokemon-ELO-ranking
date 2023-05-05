@@ -19,7 +19,30 @@
         </form>
     </div>
     
-    <div id="pokemonInfo"></div>
+    <div id="pokemonInfo">
+        <div class="pokemon-name-container" id="search-pokemon-name-container">
+        </div>
+        <div class="pokemon-details-container">
+            <div class="pokemon-image-container" id="search-pokemon-image-container">
+            </div>
+            <div class="pokemon-info-container" id="search-pokemon-info-container">
+                <div class="info-wrapper" id="search-info-wrapper"></div>
+                <div class="competition-history" id="search-competition-history">
+                    <h3>Competition History</h3>
+                    <table id="competitionHistoryTable">
+                      <thead id="competitionHistoryHeader">
+                        <tr>
+                          <th>Pokemon</th>
+                          <th>Opponent</th>
+                          <th>Outcome</th>
+                        </tr>
+                      </thead>
+                      <tbody id="competitionHistoryBody"></tbody>
+                    </table>
+                  </div>
+            </div>
+        </div>
+    </div>
     
     <script src="search.js"></script>
 </body>
