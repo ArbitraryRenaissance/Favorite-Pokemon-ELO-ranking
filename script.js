@@ -9,18 +9,35 @@ let _leaderboard;
 
 async function getPokemonData() {
     try {
-        const response = await fetch(`${apiBaseUrl}/pokemon-data`);
+        const localData = localStorage.getItem('pokemonData');
+        if (localData) {
+            return JSON.parse(localData);
+        }
+        
+        const response = await fetch(`${apiBaseUrl}/pokemon-data-init`);
         const data = await response.json();
+        
+        localStorage.setItem('pokemonData', JSON.stringify(data));
+        
         return data;
     } catch (error) {
         console.error(error);
     }
 }
 
+
 async function getCompetitionData() {
     try {
-        const response = await fetch(`${apiBaseUrl}/competitions`);
+        const localData = localStorage.getItem('competitions');
+        if (localData) {
+            return JSON.parse(localData);
+        }
+
+        const response = await fetch(`${apiBaseUrl}/competitions-init`);
         const data = await response.json();
+
+        localStorage.setItem('competitions', JSON.stringify(data));
+
         return data;
     } catch (error) {
         console.error(error);
@@ -30,8 +47,15 @@ async function getCompetitionData() {
 
 async function getLeaderboard() {
     try {
-        const response = await fetch(`${apiBaseUrl}/leaderboard`);
-        const data = await response.json();
+        const localData = localStorage.getItem('leaderboard');
+        if (localData) {
+            return JSON.parse(localData);
+        }
+
+        const data = await generateLeaderboard(_pokemonData);
+
+        localStorage.setItem('leaderboard', JSON.stringify(data));
+
         return data;
     } catch (error) {
         console.error(error);
@@ -40,16 +64,7 @@ async function getLeaderboard() {
 
 async function updatePokemonData(pokemonData) {
     try {
-        const response = await fetch(`${apiBaseUrl}/update-pokemon-data`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(pokemonData)
-        });
-        if (!response.ok) {
-            throw new Error('Failed to write to file');
-        }
+        localStorage.setItem('pokemonData', JSON.stringify(pokemonData));
     } catch (error) {
         console.error(error);
     }
@@ -57,16 +72,7 @@ async function updatePokemonData(pokemonData) {
 
 async function updateCompetitionData(competitionData) {
     try {
-        const response = await fetch(`${apiBaseUrl}/update-competition-data`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(competitionData)
-        });
-        if (!response.ok) {
-            throw new Error('Failed to write to file');
-        }
+        localStorage.setItem('competitions', JSON.stringify(competitionData));
     } catch (error) {
         console.error(error);
     }
@@ -74,16 +80,7 @@ async function updateCompetitionData(competitionData) {
 
 async function updateLeaderboard(leaderboard) {
     try {
-        const response = await fetch(`${apiBaseUrl}/update-leaderboard`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(leaderboard)
-        });
-        if (!response.ok) {
-            throw new Error('Failed to write to file');
-        }
+        localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
     } catch (error) {
         console.error(error);
     }
