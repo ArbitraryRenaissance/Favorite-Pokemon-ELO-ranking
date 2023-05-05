@@ -21,6 +21,125 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
+app.get('/pokemon-data', async (req, res) => {
+    try {
+        if (!fs.existsSync('pokemonData.json')) {
+            console.log('pokemonData.json not found. Generating new file...');
+            const newData = await generatePokemonData();
+            console.log('New pokemonData.json file generated successfully.');
+            res.json(newData);
+        } else {
+            fs.readFile('pokemonData.json', 'utf8', (err, data) => {
+                if (err) {
+                    console.error('Error reading pokemonData.json:', err);
+                    res.status(500).send('Internal server error');
+                } else {
+                    res.json(JSON.parse(data));
+                }
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+async function generatePokemonData() {
+    return new Promise((resolve, reject) => {
+        fs.readFile('pokemonData_init.json', 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading pokemonData_init.json:', err);
+                reject('Error generating pokemon data');
+            } else {
+                const pokemonList = JSON.parse(data);
+                fs.writeFile('pokemonData.json', JSON.stringify(pokemonList), 'utf8', (err) => {
+                    if (err) {
+                        console.error('Error writing pokemonData.json:', err);
+                        reject('Error generating pokemon data');
+                    } else {
+                        resolve(pokemonList);
+                    }
+                });
+            }
+        });
+    });
+}
+
+app.get('/competitions', async (req, res) => {
+    try {
+        if (!fs.existsSync('competitions.json')) {
+            console.log('competitions.json not found. Generating new file...');
+            const newData = await generateCompetitionData();
+            console.log('New competitions.json file generated successfully.');
+            res.json(newData);
+        } else {
+            fs.readFile('competitions.json', 'utf8', (err, data) => {
+                if (err) {
+                    console.error('Error reading competitions.json:', err);
+                    res.status(500).send('Internal server error');
+                } else {
+                    res.json(JSON.parse(data));
+                }
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+async function generateCompetitionData() {
+    let competition_data = {
+        competition_counter: 1,
+        competition_history: []
+    };
+    return competition_data;
+}
+
+app.get('/leaderboard', async (req, res) => {
+    try {
+        if (!fs.existsSync('leaderboard.json')) {
+            console.log('leaderboard.json not found. Generating new file...');
+            try {
+                const pokemonData = JSON.parse(await fs.promises.readFile('pokemonData.json', 'utf8'));
+                const newData = await generateLeaderboard(pokemonData);
+                console.log('New leaderboard.json file generated successfully.');
+                res.json(newData);
+            } catch (err) {
+                console.error('Error generating leaderboard:', err);
+                res.status(500).send('Internal server error');
+            }
+        } else {
+            fs.readFile('leaderboard.json', 'utf8', (err, data) => {
+                if (err) {
+                    console.error('Error reading leaderboard.json:', err);
+                    res.status(500).send('Internal server error');
+                } else {
+                    res.json(JSON.parse(data));
+                }
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// This is disgusting: it's also in script.js because it has to be.
+async function generateLeaderboard(pokemonData) {
+    const sortedPokemon = [...pokemonData].sort((a, b) => b.elo - a.elo); // Sort by ELO rating
+
+    const leaderboard = sortedPokemon.map((pokemon, index) => {
+        return {
+            rank: index + 1,
+            name: pokemon.name,
+            score: Math.round(pokemon.elo),
+            rd: Math.round(pokemon.RD),
+        };
+    });
+    return leaderboard;
+}
+
 app.post('/update-pokemon-data', (req, res) => {
     const pokemonData = req.body;
     fs.writeFile('pokemonData.json', JSON.stringify(pokemonData, null, 2), (error) => {

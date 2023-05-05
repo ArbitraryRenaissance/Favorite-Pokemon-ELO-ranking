@@ -1,3 +1,6 @@
+import config from './config.js';
+const { apiBaseUrl } = config;
+
 let _pokemonData;
 let _competitionData;
 let _pokemon1;
@@ -6,13 +9,7 @@ let _leaderboard;
 
 async function getPokemonData() {
     try {
-        const response = await fetch('./pokemonData.json');
-        if (response.status === 404) {
-            console.log('pokemonData.json not found. Generating new file...');
-            const newData = await generatePokemonData();
-            console.log('New pokemonData.json file generated successfully.');
-            return newData;
-        }
+        const response = await fetch(`${apiBaseUrl}/pokemon-data`);
         const data = await response.json();
         return data;
     } catch (error) {
@@ -22,72 +19,28 @@ async function getPokemonData() {
 
 async function getCompetitionData() {
     try {
-        const response = await fetch('./competitions.json');
-        if (response.status === 404) {
-            console.log('competitions.json not found. Generating new file...');
-            const newData = await generateCompetitionData();
-            console.log('New competitions.json file generated successfully.');
-            return newData;
-        }
+        const response = await fetch(`${apiBaseUrl}/competitions`);
         const data = await response.json();
         return data;
     } catch (error) {
         console.error(error);
     }
 }
+
 
 async function getLeaderboard() {
     try {
-        const response = await fetch('./leaderboard.json');
-        if (response.status === 404) {
-            console.log('leaderboard.json not found. Generating new file...');
-            const newData = await generateLeaderboard(_pokemonData);
-            console.log('New leaderboard.json file generated successfully.');
-            return newData;
-        }
+        const response = await fetch(`${apiBaseUrl}/leaderboard`);
         const data = await response.json();
         return data;
     } catch (error) {
         console.error(error);
     }
-}
-
-async function generatePokemonData() {
-    const response = await fetch('./pokemonData_init.json');
-    const pokemonList = await response.json();
-    await updatePokemonData(pokemonList);
-    return pokemonList;
-}
-
-async function generateCompetitionData() {
-    let competition_data = {
-        competition_counter: 1,
-        competition_history: []
-    };
-    await updateCompetitionData(competition_data);
-    return competition_data;
-}
-
-async function generateLeaderboard(pokemonData) {
-    const sortedPokemon = [...pokemonData].sort((a, b) => b.elo - a.elo); // Sort by ELO rating
-    //const topPokemon = sortedPokemon.slice(0, 10); // Get the top 10 pokemon
-
-    const leaderboard = sortedPokemon.map((pokemon, index) => {
-        return {
-            rank: index + 1,
-            name: pokemon.name,
-            score: Math.round(pokemon.elo),
-            rd: Math.round(pokemon.RD),
-        };
-    });
-
-    await updateLeaderboard(leaderboard);
-    return leaderboard;
 }
 
 async function updatePokemonData(pokemonData) {
     try {
-        const response = await fetch('http://localhost:3000/update-pokemon-data', {
+        const response = await fetch(`${apiBaseUrl}/update-pokemon-data`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -104,7 +57,7 @@ async function updatePokemonData(pokemonData) {
 
 async function updateCompetitionData(competitionData) {
     try {
-        const response = await fetch('http://localhost:3000/update-competition-data', {
+        const response = await fetch(`${apiBaseUrl}/update-competition-data`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -121,7 +74,7 @@ async function updateCompetitionData(competitionData) {
 
 async function updateLeaderboard(leaderboard) {
     try {
-        const response = await fetch('http://localhost:3000/update-leaderboard', {
+        const response = await fetch(`${apiBaseUrl}/update-leaderboard`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -134,6 +87,20 @@ async function updateLeaderboard(leaderboard) {
     } catch (error) {
         console.error(error);
     }
+}
+
+async function generateLeaderboard(pokemonData) {
+    const sortedPokemon = [...pokemonData].sort((a, b) => b.elo - a.elo); // Sort by ELO rating
+
+    const leaderboard = sortedPokemon.map((pokemon, index) => {
+        return {
+            rank: index + 1,
+            name: pokemon.name,
+            score: Math.round(pokemon.elo),
+            rd: Math.round(pokemon.RD),
+        };
+    });
+    return leaderboard;
 }
 
 function calculateEloChange(pokemon1, pokemon2, winner, competition_number) {
@@ -290,11 +257,12 @@ async function handlePokemonClick(event, winner, pokemon1, pokemon2,
     _competitionData = competitionData;
 
     // Refresh the leaderboard
-    _leaderboard = await generateLeaderboard(pokemonData); // This also writes to leaderboard.json
+    _leaderboard = await generateLeaderboard(pokemonData);
 
     // Save the values
     await updatePokemonData(pokemonData);
     await updateCompetitionData(competitionData);
+    await updateLeaderboard(_leaderboard);
 
     // Add ELO change element to DOM and set its text content and position
     const eloPlus = Math.round(winner ? elo_info[0][0] : elo_info[1][0]);

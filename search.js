@@ -1,3 +1,6 @@
+import config from './config.js';
+const { apiBaseUrl } = config;
+
 const searchInput = document.getElementById('searchInput');
 const suggestionsDiv = document.getElementById('suggestions');
 let highlightedIndex = -1;
@@ -20,7 +23,7 @@ async function performSearch() {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/search', {
+        const response = await fetch(`${apiBaseUrl}/search`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
