@@ -7,7 +7,7 @@ app.use(bodyParser.json({ limit: '50mb' })); // increase the limit to 50mb
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 const cors = require('cors');
-const allowedOrigins = ['http://localhost:8080', 'https://api.betterpokemon.app'];
+const allowedOrigins = ['http://localhost:8080', 'https://www.betterpokemon.app'];
 const corsOptions = {
     origin: function (origin, callback) {
         if (allowedOrigins.indexOf(origin) !== -1) {
