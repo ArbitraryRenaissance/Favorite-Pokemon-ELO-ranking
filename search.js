@@ -6,7 +6,7 @@ const suggestionsDiv = document.getElementById('suggestions');
 let highlightedIndex = -1;
 
 document.getElementById('mainPageButton').addEventListener('click', () => {
-    window.location.href = 'main.html';
+    window.location.href = 'index.html';
 });
 
 
