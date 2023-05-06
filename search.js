@@ -110,7 +110,7 @@ searchInput.addEventListener('input', async (event) => {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/autocomplete', {
+        const response = await fetch(`${apiBaseUrl}/autocomplete`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
