@@ -56,7 +56,7 @@ app.get('/pokemon-data-init', async (req, res) => {
 app.post('/autocomplete', (req, res) => {
     const { term } = req.body;
 
-    fs.readFile('pokemonData.json', 'utf8', (err, data) => {
+    fs.readFile('pokemonData_init.json', 'utf8', (err, data) => {
         if (err) {
             console.error('Error reading pokemonData.json:', err);
             return res.status(500).send('Internal server error');
