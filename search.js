@@ -22,67 +22,77 @@ async function performSearch() {
         return;
     }
 
-    try {
-        const response = await fetch(`${apiBaseUrl}/search`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name: searchInputValue })
-        });
-
-        if (response.ok) {
-            const pokemon = await response.json();
-            pokemonNameDiv.innerHTML = `
-            <h2 id="pokemonName">${pokemon.name}</h2>
-            `;
-            pokemonImageDiv.innerHTML = `
-            <img id="pokemonImage" src="${pokemon.png}" alt="${pokemon.name}" />
-            `;
-            pokemonInfoDiv.innerHTML = `
-            <p id="pokemonElo">ELO Rating: ${Math.round(pokemon.elo)} (± ${Math.round(pokemon.RD)})</p>
-            <p id="pokemonRanking">Current ranking: ${pokemon.rank}</p>
-            `;
-
-            // Load competition history
-            const competitionHistoryBody = document.getElementById('competitionHistoryBody');
-            competitionHistoryBody.innerHTML = ''; // Clear existing table rows
-
-            const competitionHistoryDiv = document.querySelector('.competition-history');
-            competitionHistoryDiv.style.display = 'block';
-
-            // Reverse the array to display in reverse chronological order
-            const reversedMatchups = pokemon.matchups.slice().reverse();
-
-            reversedMatchups.forEach(matchup => {
-                const row = document.createElement('tr');
-                
-                const isWin = (matchup.pokemon1.name === pokemon.name && matchup.outcome === 1) || (matchup.pokemon2.name === pokemon.name && matchup.outcome === 0);
-                
-                row.classList.add(isWin ? 'win' : 'loss');
-
-                const outcomeCell = document.createElement('td');
-                outcomeCell.textContent = isWin ? 'Win' : 'Loss';
-
-                const pokemonCell = document.createElement('td');
-                pokemonCell.textContent = pokemon.name;
-
-                const opponentCell = document.createElement('td');
-                opponentCell.textContent = matchup.pokemon1.name === pokemon.name ? matchup.pokemon2.name : matchup.pokemon1.name;
-
-                row.appendChild(pokemonCell);
-                row.appendChild(opponentCell);
-                row.appendChild(outcomeCell);
-
-                competitionHistoryBody.appendChild(row);
-            });
-        } else {
-            alert('Pokemon not found.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again.');
+    const r_pokemonData = localStorage.getItem("pokemonData");
+    const r_leaderboard = localStorage.getItem("leaderboard");
+    const r_competitions = localStorage.getItem("competitions");
+    let pokemonData;
+    let leaderboard;
+    let competitions;
+    if (r_pokemonData && r_leaderboard && r_competitions) {
+        pokemonData = JSON.parse(r_pokemonData);
+        leaderboard = JSON.parse(r_leaderboard);
+        competitions = JSON.parse(r_competitions);
+    } else {
+        alert('You need to do at least one competition.');
+        return;
     }
+
+    const pokemon = pokemonData.find(p => p.name.toLowerCase() === searchInputValue.toLowerCase());
+    if (!pokemon) {
+        alert('Pokemon not found');
+        return;
+    }
+    const entry = leaderboard.find(p => p.name.toLowerCase() === searchInputValue.toLowerCase());
+    const matchups = competitions.competition_history.filter(p =>
+        p.pokemon1.name.toLowerCase() === searchInputValue.toLowerCase() ||
+        p.pokemon2.name.toLowerCase() === searchInputValue.toLowerCase()
+    );
+    
+    pokemonNameDiv.innerHTML = `
+    <h2 id="pokemonName">${pokemon.name}</h2>
+    `;
+    pokemonImageDiv.innerHTML = `
+    <img id="pokemonImage" src="${pokemon.png}" alt="${pokemon.name}" />
+    `;
+    pokemonInfoDiv.innerHTML = `
+    <p id="pokemonElo">ELO Rating: ${Math.round(pokemon.elo)} (± ${Math.round(pokemon.RD)})</p>
+    <p id="pokemonRanking">Current ranking: ${entry.rank}</p>
+    `;
+
+    // Load competition history
+    const competitionHistoryBody = document.getElementById('competitionHistoryBody');
+    competitionHistoryBody.innerHTML = ''; // Clear existing table rows
+
+    const competitionHistoryDiv = document.querySelector('.competition-history');
+    competitionHistoryDiv.style.display = 'block';
+
+    // Reverse the array to display in reverse chronological order
+    const reversedMatchups = matchups.slice().reverse();
+
+    reversedMatchups.forEach(matchup => {
+        const row = document.createElement('tr');
+        
+        const isWin = (matchup.pokemon1.name === pokemon.name && matchup.outcome === 1) || 
+            (matchup.pokemon2.name === pokemon.name && matchup.outcome === 0);
+        
+        row.classList.add(isWin ? 'win' : 'loss');
+
+        const outcomeCell = document.createElement('td');
+        outcomeCell.textContent = isWin ? 'Win' : 'Loss';
+
+        const pokemonCell = document.createElement('td');
+        pokemonCell.textContent = pokemon.name;
+
+        const opponentCell = document.createElement('td');
+        opponentCell.textContent = matchup.pokemon1.name === pokemon.name ? 
+            matchup.pokemon2.name : matchup.pokemon1.name;
+
+        row.appendChild(pokemonCell);
+        row.appendChild(opponentCell);
+        row.appendChild(outcomeCell);
+
+        competitionHistoryBody.appendChild(row);
+    });
 }
 
 document.getElementById('searchForm').addEventListener('submit', async (event) => {

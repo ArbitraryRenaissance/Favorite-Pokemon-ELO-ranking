@@ -32,18 +32,17 @@ async function getCompetitionData() {
         if (localData) {
             return JSON.parse(localData);
         }
+        let competition_data = {
+            competition_counter: 1,
+            competition_history: []
+        };
+        localStorage.setItem('competitions', JSON.stringify(competition_data));
 
-        const response = await fetch(`${apiBaseUrl}/competitions-init`);
-        const data = await response.json();
-
-        localStorage.setItem('competitions', JSON.stringify(data));
-
-        return data;
+        return competition_data;
     } catch (error) {
         console.error(error);
     }
 }
-
 
 async function getLeaderboard() {
     try {
