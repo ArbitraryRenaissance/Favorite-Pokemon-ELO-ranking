@@ -256,15 +256,7 @@ async function makeLeaderboard(leaderboard) {
     });
 }
 
-async function handlePokemonClick(event, winner, pokemon1, pokemon2,
-    pokemonData, competitionData) {
-    // Get competition number
-    const competition_number = competitionData.competition_counter;
-
-    // Obtain new ELO and RDs
-    const elo_info = calculateEloChange(pokemon1, pokemon2, winner, competition_number);
-
-    // Make a log of the competition
+function createCompetitionLogEntry(pokemon1, pokemon2, winner, competition_number) {
     const pokemon1Copy = { ...pokemon1 };
     const pokemon2Copy = { ...pokemon2 };
     const time = new Date(Date.now()).toLocaleString();
@@ -274,7 +266,10 @@ async function handlePokemonClick(event, winner, pokemon1, pokemon2,
         outcome: winner,
         timestamp: time
     };
+    return comp;
+}
 
+async function updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, competitionData, comp) {
     // Update the values
     pokemon1.elo += elo_info[0][0];
     pokemon1.RD = elo_info[0][1];
@@ -298,18 +293,18 @@ async function handlePokemonClick(event, winner, pokemon1, pokemon2,
     await updatePokemonData(pokemonData);
     await updateCompetitionData(competitionData);
     await updateLeaderboard(_leaderboard);
+}
 
-    // Add ELO change element to DOM and set its text content and position
-    const eloPlus = Math.round(winner ? elo_info[0][0] : elo_info[1][0]);
+function handleEloChangeAnimation(x, y, eloPlus) {
     const eloChangeEl = document.createElement('div');
     eloChangeEl.id = 'elo-change';
     eloChangeEl.textContent = `+${eloPlus}`;
-    eloChangeEl.style.top = `${event.clientY}px`;
-    eloChangeEl.style.left = `${event.clientX}px`;
+    eloChangeEl.style.top = `${y}px`;
+    eloChangeEl.style.left = `${x}px`;
     document.body.appendChild(eloChangeEl);
 
     const opacityInterval = 10 / 1000;
-    const translateInterval = event.clientY / 1000;
+    const translateInterval = y / 1000;
     let currentOpacity = 100;
     let currentTranslateY = 0;
     const intervalId = setInterval(() => {
@@ -322,11 +317,32 @@ async function handlePokemonClick(event, winner, pokemon1, pokemon2,
             document.body.removeChild(eloChangeEl);
         }
     }, 10);
+}
+
+async function prepareNewCompetition(pokemonData, competitionData) {
+    const newPokemonPair = selectTwoPokemon(pokemonData);
+    updateHTML(newPokemonPair[0], newPokemonPair[1]);
+    makeLeaderboard(await generateLeaderboard(pokemonData));
+    return newPokemonPair;
+}
+
+async function handlePokemonClick(event, winner, pokemon1, pokemon2,
+    pokemonData, competitionData) {
+    const competition_number = competitionData.competition_counter;
+    const elo_info = calculateEloChange(pokemon1, pokemon2, winner, competition_number);
+
+    const comp = createCompetitionLogEntry(pokemon1, pokemon2, winner, competition_number);
+    updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, competitionData, comp);
+
+    const eloPlus = Math.round(winner ? elo_info[0][0] : elo_info[1][0]);
+    const x = event.clientX;
+    const y = event.clientY;
+    handleEloChangeAnimation(x, y, eloPlus);
 
     // Choose new Pokemon, update HTML
-    [_pokemon1, _pokemon2] = selectTwoPokemon(pokemonData);
-    updateHTML(_pokemon1, _pokemon2);
-    makeLeaderboard(_leaderboard);
+    const newPokemonPair = await prepareNewCompetition(pokemonData, competitionData);
+    _pokemon1 = newPokemonPair[0];
+    _pokemon2 = newPokemonPair[1];
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -337,12 +353,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     updateHTML(_pokemon1, _pokemon2);
     makeLeaderboard(_leaderboard);
 
-    const lookupPageButton = document.getElementById('lookupPageButton');
-    if (lookupPageButton) {
-        lookupPageButton.addEventListener('click', () => {
-            window.location.href = 'lookup.html';
+    document.getElementById('lookupPageButton').addEventListener('click', () => {
+        window.location.href = 'lookup.html';
         });
-    }
     document.getElementById("pokemon1").addEventListener("mouseup", function (event) {
         handlePokemonClick(event, 1, _pokemon1, _pokemon2, _pokemonData, _competitionData);
     });
