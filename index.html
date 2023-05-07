@@ -11,15 +11,20 @@
 <body>
   <h1>Choose your favorite Pokémon!</h1>
   <div class="container">
-    <button id="undoButton" class="navigation-button undo-button">Undo</button>
-    <div class="pokemon-container" id="pokemon1">
-      <img src="" alt="Pokemon 1" id="pokemon1-img">
-      <p class="pokemon-name" id="pokemon1-name"></p>
-    </div>
-    <div class="pokemon-container" id="pokemon2">
-      <img src="" alt="Pokemon 2" id="pokemon2-img">
-      <p class="pokemon-name" id="pokemon2-name"></p>
-    </div>
+    <button id="undoButton" class="undo-button">Undo</button>
+    <div class="main-content">
+      <div class="pokemon-wrapper">
+        <div class="pokemon-container" id="pokemon1">
+          <img src="" alt="Pokemon 1" id="pokemon1-img">
+          <p class="pokemon-name" id="pokemon1-name"></p>
+        </div>
+        <div class="pokemon-container" id="pokemon2">
+          <img src="" alt="Pokemon 2" id="pokemon2-img">
+          <p class="pokemon-name" id="pokemon2-name"></p>
+        </div>
+      </div>
+      <button id="draw-button" class="draw-button">I can't decide!</button>
+    </div>    
   </div>
   <div id="leaderboard-table">
     <h2>Leaderboard</h2>

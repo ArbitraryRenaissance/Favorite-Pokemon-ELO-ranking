@@ -228,6 +228,14 @@ async function undoLastMatch() {
     updateHTML(previousPokemon1, previousPokemon2);
 }
 
+function getContainerCenter(containerId) {
+    const container = document.getElementById(containerId);
+    const rect = container.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    return { x, y };
+  }  
+
 async function makeLeaderboard(leaderboard) {
     const topPokemon = leaderboard.slice(0, 10); // Get the top 10 pokemon
     const tableBody = document.querySelector('#leaderboard-table tbody');
@@ -297,7 +305,7 @@ async function updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, compe
 function handleEloChangeAnimation(x, y, eloPlus) {
     const eloChangeEl = document.createElement('div');
     eloChangeEl.id = 'elo-change';
-    eloChangeEl.textContent = `+${eloPlus}`;
+    eloChangeEl.textContent = eloPlus ? `+${eloPlus}` : "=";
     eloChangeEl.style.top = `${y}px`;
     eloChangeEl.style.left = `${x}px`;
     document.body.appendChild(eloChangeEl);
@@ -325,7 +333,7 @@ async function prepareNewCompetition(pokemonData, competitionData) {
     return newPokemonPair;
 }
 
-async function handlePokemonClick(event, winner, pokemon1, pokemon2,
+async function handlePokemonClick(x, y, winner, pokemon1, pokemon2,
     pokemonData, competitionData) {
     const competition_number = competitionData.competition_counter;
     const elo_info = calculateEloChange(pokemon1, pokemon2, winner, competition_number);
@@ -334,9 +342,33 @@ async function handlePokemonClick(event, winner, pokemon1, pokemon2,
     updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, competitionData, comp);
 
     const eloPlus = Math.round(winner ? elo_info[0][0] : elo_info[1][0]);
-    const x = event.clientX;
-    const y = event.clientY;
     handleEloChangeAnimation(x, y, eloPlus);
+
+    // Choose new Pokemon, update HTML
+    const newPokemonPair = await prepareNewCompetition(pokemonData, competitionData);
+    _pokemon1 = newPokemonPair[0];
+    _pokemon2 = newPokemonPair[1];
+}
+
+async function handleDraw(pokemon1, pokemon2, pokemonData, competitionData){
+    const competition_number = competitionData.competition_counter;
+    const elo_info = calculateEloChange(pokemon1, pokemon2, 0.5, competition_number);
+
+    const comp = createCompetitionLogEntry(pokemon1, pokemon2, 0.5, competition_number);
+    updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, competitionData, comp);
+    
+    const center1 = getContainerCenter('pokemon1');
+    const center2 = getContainerCenter('pokemon2');
+    const p1_elo_change = Math.round(elo_info[0][0]);
+    const p2_elo_change = Math.round(elo_info[1][0]);
+
+    if (p1_elo_change > p2_elo_change) {
+        handleEloChangeAnimation(center1.x, center1.y, p1_elo_change);
+    } else if (p1_elo_change < p2_elo_change) {
+        handleEloChangeAnimation(center2.x, center2.y, p2_elo_change);
+    } else {
+        handleEloChangeAnimation(0.5*(center1.x + center2.x), center1.y, 0);
+    }
 
     // Choose new Pokemon, update HTML
     const newPokemonPair = await prepareNewCompetition(pokemonData, competitionData);
@@ -354,12 +386,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     document.getElementById('lookupPageButton').addEventListener('click', () => {
         window.location.href = 'lookup.html';
-        });
+    });
     document.getElementById("pokemon1").addEventListener("mouseup", function (event) {
-        handlePokemonClick(event, 1, _pokemon1, _pokemon2, _pokemonData, _competitionData);
+        const x = event.clientX;
+        const y = event.clientY;
+        handlePokemonClick(x, y, 1, _pokemon1, _pokemon2, _pokemonData, _competitionData);
     });
     document.getElementById("pokemon2").addEventListener("mouseup", function (event) {
-        handlePokemonClick(event, 0, _pokemon1, _pokemon2, _pokemonData, _competitionData);
+        const x = event.clientX;
+        const y = event.clientY;
+        handlePokemonClick(x, y, 0, _pokemon1, _pokemon2, _pokemonData, _competitionData);
+    });
+    document.getElementById('draw-button').addEventListener('mouseup', function () {
+        handleDraw(_pokemon1, _pokemon2, _pokemonData, _competitionData);
     });
     document.getElementById('undoButton').addEventListener('mouseup', undoLastMatch);
 });
