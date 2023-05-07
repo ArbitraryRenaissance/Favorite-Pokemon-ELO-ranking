@@ -105,7 +105,7 @@ function calculateEloChange(pokemon1, pokemon2, winner, competition_number) {
     const r1 = pokemon1.elo;
     const r2 = pokemon2.elo;
     const c = 1.1;
-    const s1 = winner ? 1 : 0; // superfluous, actually: winner is already 0 or 1
+    const s1 = winner;
     const s2 = 1 - s1;
 
     // Update RDs for calculation
@@ -228,7 +228,6 @@ async function undoLastMatch() {
     updateHTML(previousPokemon1, previousPokemon2);
 }
 
-
 async function makeLeaderboard(leaderboard) {
     const topPokemon = leaderboard.slice(0, 10); // Get the top 10 pokemon
     const tableBody = document.querySelector('#leaderboard-table tbody');
@@ -273,10 +272,10 @@ async function updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, compe
     // Update the values
     pokemon1.elo += elo_info[0][0];
     pokemon1.RD = elo_info[0][1];
-    pokemon1.last_game = competition_number;
+    pokemon1.last_game = competitionData.competiton_counter;
     pokemon2.elo += elo_info[1][0];
     pokemon2.RD = elo_info[1][1];
-    pokemon2.last_game = competition_number;
+    pokemon2.last_game = competitionData.competiton_counter;
     pokemonData[parseInt(pokemon1.id) - 1] = pokemon1;
     pokemonData[parseInt(pokemon2.id) - 1] = pokemon2;
     competitionData.competition_counter += 1;

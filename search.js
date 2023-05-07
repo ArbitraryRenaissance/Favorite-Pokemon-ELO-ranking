@@ -9,45 +9,61 @@ document.getElementById('mainPageButton').addEventListener('click', () => {
     window.location.href = 'index.html';
 });
 
+function validateSearchInput(searchInputValue) {
+    if (!searchInputValue) {
+        return 'Please enter a Pokemon name.';
+    }
+    return null;
+}
 
-// Search function
-async function performSearch() {
-    const searchInputValue = searchInput.value;
+function getStoredData() {
+    const r_pokemonData = localStorage.getItem("pokemonData");
+    const r_leaderboard = localStorage.getItem("leaderboard");
+    const r_competitions = localStorage.getItem("competitions");
+
+    if (r_pokemonData && r_leaderboard && r_competitions) {
+        const pokemonData = JSON.parse(r_pokemonData);
+        const leaderboard = JSON.parse(r_leaderboard);
+        const competitions = JSON.parse(r_competitions);
+
+        return {
+            success: true,
+            data: {
+                pokemonData,
+                leaderboard,
+                competitions
+            }
+        };
+    } else {
+        return {
+            success: false,
+            errorMessage: 'You need to do at least one competition.'
+        };
+    }
+}
+
+function findPokemonData(searchInputValue, pokemonData, leaderboard) {
+    const pokemon = pokemonData.find(p => p.name.toLowerCase() === searchInputValue.toLowerCase());
+    const entry = leaderboard.find(p => p.name.toLowerCase() === searchInputValue.toLowerCase());
+    
+    if (pokemon && entry) {
+        return { pokemon, entry };
+    }
+    return null;
+}
+
+function getMatchups(searchInputValue, competitions) {
+    return competitions.competition_history.filter(p =>
+        p.pokemon1.name.toLowerCase() === searchInputValue.toLowerCase() ||
+        p.pokemon2.name.toLowerCase() === searchInputValue.toLowerCase()
+    );
+}
+
+function updatePokemonDisplay(pokemon, entry) {
     const pokemonInfoDiv = document.getElementById('search-info-wrapper');
     const pokemonImageDiv = document.getElementById('search-pokemon-image-container');
     const pokemonNameDiv = document.getElementById('search-pokemon-name-container');
 
-    if (!searchInputValue) {
-        alert('Please enter a Pokemon name.');
-        return;
-    }
-
-    const r_pokemonData = localStorage.getItem("pokemonData");
-    const r_leaderboard = localStorage.getItem("leaderboard");
-    const r_competitions = localStorage.getItem("competitions");
-    let pokemonData;
-    let leaderboard;
-    let competitions;
-    if (r_pokemonData && r_leaderboard && r_competitions) {
-        pokemonData = JSON.parse(r_pokemonData);
-        leaderboard = JSON.parse(r_leaderboard);
-        competitions = JSON.parse(r_competitions);
-    } else {
-        alert('You need to do at least one competition.');
-        return;
-    }
-
-    const pokemon = pokemonData.find(p => p.name.toLowerCase() === searchInputValue.toLowerCase());
-    if (!pokemon) {
-        alert('Pokemon not found');
-        return;
-    }
-    const entry = leaderboard.find(p => p.name.toLowerCase() === searchInputValue.toLowerCase());
-    const matchups = competitions.competition_history.filter(p =>
-        p.pokemon1.name.toLowerCase() === searchInputValue.toLowerCase() ||
-        p.pokemon2.name.toLowerCase() === searchInputValue.toLowerCase()
-    );
-    
     pokemonNameDiv.innerHTML = `
     <h2 id="pokemonName">${pokemon.name}</h2>
     `;
@@ -58,8 +74,9 @@ async function performSearch() {
     <p id="pokemonElo">ELO Rating: ${Math.round(pokemon.elo)} (± ${Math.round(pokemon.RD)})</p>
     <p id="pokemonRanking">Current ranking: ${entry.rank}</p>
     `;
+}
 
-    // Load competition history
+function populateCompetitionHistory(matchups, pokemon) {
     const competitionHistoryBody = document.getElementById('competitionHistoryBody');
     competitionHistoryBody.innerHTML = ''; // Clear existing table rows
 
@@ -93,6 +110,35 @@ async function performSearch() {
 
         competitionHistoryBody.appendChild(row);
     });
+}
+
+async function performSearch() {
+    const searchInputValue = searchInput.value;
+
+    const errorMessage = validateSearchInput(searchInputValue);
+    if (errorMessage) {
+        alert(errorMessage);
+        return;
+    }
+
+    const storedData = getStoredData();
+    if (!storedData.success) {
+        alert(storedData.errorMessage);
+        return;
+    }
+    const { pokemonData, leaderboard, competitions } = storedData.data;
+
+    const result = findPokemonData(searchInputValue, pokemonData, leaderboard);
+    if (!result) {
+        alert('Pokemon not found');
+        return;
+    }
+    const { pokemon, entry } = result;
+
+    const matchups = getMatchups(searchInputValue, competitions);
+
+    updatePokemonDisplay(pokemon, entry);
+    populateCompetitionHistory(matchups, pokemon);
 }
 
 document.getElementById('searchForm').addEventListener('submit', async (event) => {
