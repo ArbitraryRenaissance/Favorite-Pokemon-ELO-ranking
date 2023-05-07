@@ -161,7 +161,18 @@ function getRandomPokemonFromArray(pokemonArray) {
 }
 
 function selectTwoPokemon(pokemonData) {
-    let firstPokemon = getRandomPokemon(pokemonData);
+    // Select the first pokemon: 
+    // choose two random pokemon and go with the one with smaller last_game
+    let firstCandidate = getRandomPokemon(pokemonData);
+    let secondCandidate = getRandomPokemon(pokemonData);
+
+    let firstPokemon = firstCandidate.last_game < secondCandidate.last_game ? firstCandidate :
+                       secondCandidate.last_game < firstCandidate.last_game ? secondCandidate :
+                       Math.random() < 0.5 ? firstCandidate : secondCandidate;
+
+    // Select the second pokemon:
+    // 5% chance: choose completely randomly
+    // 95% chance: choose randomly from 20 pokemon with closest elo
     let closePokemon = getClosestPokemon(firstPokemon, pokemonData);
     let secondPokemon;
     if (Math.random() < 0.05) {
