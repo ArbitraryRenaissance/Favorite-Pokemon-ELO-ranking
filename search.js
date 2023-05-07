@@ -88,14 +88,19 @@ function populateCompetitionHistory(matchups, pokemon) {
 
     reversedMatchups.forEach(matchup => {
         const row = document.createElement('tr');
-        
+
         const isWin = (matchup.pokemon1.name === pokemon.name && matchup.outcome === 1) || 
             (matchup.pokemon2.name === pokemon.name && matchup.outcome === 0);
-        
-        row.classList.add(isWin ? 'win' : 'loss');
+        const isDraw = matchup.outcome === 0.5;
+
+        if (isDraw) {
+            row.classList.add('draw');
+        } else {
+            row.classList.add(isWin ? 'win' : 'loss');
+        }
 
         const outcomeCell = document.createElement('td');
-        outcomeCell.textContent = isWin ? 'Win' : 'Loss';
+        outcomeCell.textContent = isDraw ? 'Draw' : (isWin ? 'Win' : 'Loss');
 
         const pokemonCell = document.createElement('td');
         pokemonCell.textContent = pokemon.name;

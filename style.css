@@ -285,3 +285,7 @@ h1 {
 .competition-history tr.loss {
     background-color: #66211d;
 }
+
+.competition-history tr.draw {
+    background-color: #6b5f17;
+}
