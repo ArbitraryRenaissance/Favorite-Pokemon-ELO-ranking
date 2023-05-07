@@ -13,12 +13,12 @@ async function getPokemonData() {
         if (localData) {
             return JSON.parse(localData);
         }
-        
+
         const response = await fetch(`${apiBaseUrl}/pokemon-data-init`);
         const data = await response.json();
-        
+
         localStorage.setItem('pokemonData', JSON.stringify(data));
-        
+
         return data;
     } catch (error) {
         console.error(error);
@@ -166,8 +166,8 @@ function selectTwoPokemon(pokemonData) {
     let secondCandidate = getRandomPokemon(pokemonData);
 
     let firstPokemon = firstCandidate.last_game < secondCandidate.last_game ? firstCandidate :
-                       secondCandidate.last_game < firstCandidate.last_game ? secondCandidate :
-                       Math.random() < 0.5 ? firstCandidate : secondCandidate;
+        secondCandidate.last_game < firstCandidate.last_game ? secondCandidate :
+            Math.random() < 0.5 ? firstCandidate : secondCandidate;
 
     // Select the second pokemon:
     // 5% chance: choose completely randomly
@@ -234,7 +234,7 @@ function getContainerCenter(containerId) {
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
     return { x, y };
-  }  
+}
 
 async function makeLeaderboard(leaderboard) {
     const topPokemon = leaderboard.slice(0, 10); // Get the top 10 pokemon
@@ -350,13 +350,13 @@ async function handlePokemonClick(x, y, winner, pokemon1, pokemon2,
     _pokemon2 = newPokemonPair[1];
 }
 
-async function handleDraw(pokemon1, pokemon2, pokemonData, competitionData){
+async function handleDraw(pokemon1, pokemon2, pokemonData, competitionData) {
     const competition_number = competitionData.competition_counter;
     const elo_info = calculateEloChange(pokemon1, pokemon2, 0.5, competition_number);
 
     const comp = createCompetitionLogEntry(pokemon1, pokemon2, 0.5, competition_number);
     updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, competitionData, comp);
-    
+
     const center1 = getContainerCenter('pokemon1');
     const center2 = getContainerCenter('pokemon2');
     const p1_elo_change = Math.round(elo_info[0][0]);
@@ -367,7 +367,7 @@ async function handleDraw(pokemon1, pokemon2, pokemonData, competitionData){
     } else if (p1_elo_change < p2_elo_change) {
         handleEloChangeAnimation(center2.x, center2.y, p2_elo_change);
     } else {
-        handleEloChangeAnimation(0.5*(center1.x + center2.x), center1.y, 0);
+        handleEloChangeAnimation(0.5 * (center1.x + center2.x), center1.y, 0);
     }
 
     // Choose new Pokemon, update HTML
@@ -376,9 +376,27 @@ async function handleDraw(pokemon1, pokemon2, pokemonData, competitionData){
     _pokemon2 = newPokemonPair[1];
 }
 
+function fixLastGame(pokemon, competition_history) {
+    for (let i = competition_history.length - 1; i >= 0; i--) {
+        const entry = competition_history[i];
+        if (entry.pokemon1.name === pokemon.name || entry.pokemon2.name === pokemon.name) {
+            pokemon.last_game = i + 1;
+            break;
+        }
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
     _pokemonData = await getPokemonData();
     _competitionData = await getCompetitionData();
+
+    // Fix any last_game errors from my stupid typo
+    _pokemonData.forEach(pokemon => {
+        if (pokemon.last_game === undefined) {
+            fixLastGame(pokemon, _competitionData.competition_history);
+        }
+    });
+
     _leaderboard = await getLeaderboard();
     [_pokemon1, _pokemon2] = selectTwoPokemon(_pokemonData);
     updateHTML(_pokemon1, _pokemon2);
