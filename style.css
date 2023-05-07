@@ -91,6 +91,26 @@ h1 {
     transform: translateY(2px);
 }
 
+.undo-button {
+    font-size: 24px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: #555;
+    color: #ddd;
+    border: 1px solid #888;
+    cursor: pointer;
+    outline: none;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+  }
+  
+  .undo-button:hover {
+    background-color: #5f572b;
+    color: #bba52b;
+    border-color: #bba52b;
+  }  
+
 
 #lookupPageButton {
     display: block;

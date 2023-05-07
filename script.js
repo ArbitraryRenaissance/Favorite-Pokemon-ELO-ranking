@@ -25,7 +25,6 @@ async function getPokemonData() {
     }
 }
 
-
 async function getCompetitionData() {
     try {
         const localData = localStorage.getItem('competitions');
@@ -201,6 +200,35 @@ async function updateHTML(pokemonA, pokemonB) {
     pokemon2Name.innerText = pokemonB.name;
 }
 
+async function undoLastMatch() {
+    // Check if there is at least one completed competition
+    if (_competitionData.competition_counter <= 1) {
+        return;
+    }
+
+    // Retrieve and remove the last competition from competitionData
+    const lastCompetition = _competitionData.competition_history.pop();
+    _competitionData.competition_counter--;
+
+    // Retrieve the previous Pokemon
+    const previousPokemon1 = lastCompetition.pokemon1;
+    const previousPokemon2 = lastCompetition.pokemon2;
+
+    // Update _pokemon1 and _pokemon2 variables
+    _pokemon1 = previousPokemon1;
+    _pokemon2 = previousPokemon2;
+
+    // update _pokemonData
+    _pokemonData[parseInt(_pokemon1.id) - 1] = _pokemon1;
+    _pokemonData[parseInt(_pokemon2.id) - 1] = _pokemon2;
+
+    // Update the HTML and regenerate the leaderboard
+    _leaderboard = await generateLeaderboard(_pokemonData);
+    makeLeaderboard(_leaderboard);
+    updateHTML(previousPokemon1, previousPokemon2);
+}
+
+
 async function makeLeaderboard(leaderboard) {
     const topPokemon = leaderboard.slice(0, 10); // Get the top 10 pokemon
     const tableBody = document.querySelector('#leaderboard-table tbody');
@@ -321,4 +349,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("pokemon2").addEventListener("mouseup", function (event) {
         handlePokemonClick(event, 0, _pokemon1, _pokemon2, _pokemonData, _competitionData);
     });
+    document.getElementById('undoButton').addEventListener('mouseup', undoLastMatch);
 });
