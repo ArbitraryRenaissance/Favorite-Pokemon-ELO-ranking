@@ -280,10 +280,10 @@ async function updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, compe
     // Update the values
     pokemon1.elo += elo_info[0][0];
     pokemon1.RD = elo_info[0][1];
-    pokemon1.last_game = competitionData.competiton_counter;
+    pokemon1.last_game = competitionData.competition_counter;
     pokemon2.elo += elo_info[1][0];
     pokemon2.RD = elo_info[1][1];
-    pokemon2.last_game = competitionData.competiton_counter;
+    pokemon2.last_game = competitionData.competition_counter;
     pokemonData[parseInt(pokemon1.id) - 1] = pokemon1;
     pokemonData[parseInt(pokemon2.id) - 1] = pokemon2;
     competitionData.competition_counter += 1;
