@@ -6,6 +6,7 @@ let _competitionData;
 let _pokemon1;
 let _pokemon2;
 let _leaderboard;
+let _currentTier;
 
 async function getPokemonData() {
     try {
@@ -59,6 +60,27 @@ async function getLeaderboard() {
     } catch (error) {
         console.error(error);
     }
+}
+
+async function getCurrentTier(competitionData) {
+    // Define the tier thresholds
+    const tierThresholds = [50, 100, 500, 1000, 2000, 5000, 10000];
+
+    // Retrieve the currentTier from localStorage or set it to -1 if not found
+    let currentTier = parseInt(localStorage.getItem('currentTier')) || -1;
+
+    // If currentTier is not found in localStorage, calculate it based on the length of _competitionData
+    if (currentTier === -1) {
+        currentTier = tierThresholds.findIndex(threshold => competitionData.length < threshold);
+        localStorage.setItem('currentTier', currentTier);
+    }
+
+    // Check if the current tier was found, otherwise set it to the highest tier
+    if (currentTier === -1) {
+        currentTier = tierThresholds.length;
+        localStorage.setItem('currentTier', currentTier);
+    }
+    return currentTier;    
 }
 
 async function updatePokemonData(pokemonData) {
@@ -199,6 +221,9 @@ async function updateHTML(pokemonA, pokemonB) {
     pokemon1Name.innerText = pokemonA.name;
     pokemon2Img.src = pokemonB.png;
     pokemon2Name.innerText = pokemonB.name;
+
+    // Update the progress bar
+    updateProgressBar(_competitionData.length);
 }
 
 async function undoLastMatch() {
@@ -222,8 +247,15 @@ async function undoLastMatch() {
     _pokemonData[parseInt(_pokemon1.id) - 1] = _pokemon1;
     _pokemonData[parseInt(_pokemon2.id) - 1] = _pokemon2;
 
-    // Update the HTML and regenerate the leaderboard
+    // regenerate the leaderboard
     _leaderboard = await generateLeaderboard(_pokemonData);
+
+    // Save the values
+    await updatePokemonData(_pokemonData);
+    await updateCompetitionData(_competitionData);
+    await updateLeaderboard(_leaderboard);
+
+    // Update the HTML
     makeLeaderboard(_leaderboard);
     updateHTML(previousPokemon1, previousPokemon2);
 }
@@ -391,21 +423,42 @@ function fixLastGame(pokemon, competition_history) {
     }
 }
 
+function updateProgressBar(currentCompleted) {
+    // Define the tier thresholds
+    const tierThresholds = [50, 100, 500, 1000, 2000, 5000, 10000];
+
+    // Update the current tier if a new one is reached
+    if (currentCompleted >= tierThresholds[_currentTier]) {
+        _currentTier++;
+        document.getElementById('tier-text').innerText = `Tier ${_currentTier}`;
+    }
+
+    // Find the target for the next tier
+    const targetForNextTier = tierThresholds[_currentTier];
+
+    // Calculate the completion percentage
+    const completionPercentage = (currentCompleted / targetForNextTier) * 100;
+
+    // Update the progress bar's width
+    const progressBarFilled = document.querySelector(".progress-bar-filled");
+    progressBarFilled.style.width = `${completionPercentage}%`;
+
+    // Update the progress text
+    const progressText = document.querySelector(".progress-text");
+    progressText.textContent = `${currentCompleted}/${targetForNextTier}`;
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
     _pokemonData = await getPokemonData();
     _competitionData = await getCompetitionData();
-
-    // Fix any last_game errors from my stupid typo
-    _pokemonData.forEach(pokemon => {
-        if (pokemon.last_game === undefined) {
-            fixLastGame(pokemon, _competitionData);
-        }
-    });
+    _currentTier = await getCurrentTier(_competitionData);
 
     _leaderboard = await getLeaderboard();
     [_pokemon1, _pokemon2] = selectTwoPokemon(_pokemonData);
     updateHTML(_pokemon1, _pokemon2);
     makeLeaderboard(_leaderboard);
+
+    document.getElementById('tier-text').innerText = `Tier ${_currentTier}`;
 
     document.getElementById('lookupPageButton').addEventListener('click', () => {
         window.location.href = 'lookup.html';
