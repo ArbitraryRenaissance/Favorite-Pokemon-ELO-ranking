@@ -53,7 +53,7 @@ function findPokemonData(searchInputValue, pokemonData, leaderboard) {
 }
 
 function getMatchups(searchInputValue, competitions) {
-    return competitions.competition_history.filter(p =>
+    return competitions.filter(p =>
         p.pokemon1.name.toLowerCase() === searchInputValue.toLowerCase() ||
         p.pokemon2.name.toLowerCase() === searchInputValue.toLowerCase()
     );

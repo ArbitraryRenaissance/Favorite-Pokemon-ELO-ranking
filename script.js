@@ -29,12 +29,13 @@ async function getCompetitionData() {
     try {
         const localData = localStorage.getItem('competitions');
         if (localData) {
-            return JSON.parse(localData);
+            const data = JSON.parse(localData);
+            if (data.competition_counter) { // Fix legacy datatype
+                return data.competition_history;
+            }
+            return data;
         }
-        let competition_data = {
-            competition_counter: 1,
-            competition_history: []
-        };
+        let competition_data = [];
         localStorage.setItem('competitions', JSON.stringify(competition_data));
 
         return competition_data;
@@ -202,13 +203,12 @@ async function updateHTML(pokemonA, pokemonB) {
 
 async function undoLastMatch() {
     // Check if there is at least one completed competition
-    if (_competitionData.competition_counter <= 1) {
+    if (_competitionData.length == 0) {
         return;
     }
 
     // Retrieve and remove the last competition from competitionData
-    const lastCompetition = _competitionData.competition_history.pop();
-    _competitionData.competition_counter--;
+    const lastCompetition = _competitionData.pop();
 
     // Retrieve the previous Pokemon
     const previousPokemon1 = lastCompetition.pokemon1;
@@ -280,14 +280,19 @@ async function updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, compe
     // Update the values
     pokemon1.elo += elo_info[0][0];
     pokemon1.RD = elo_info[0][1];
-    pokemon1.last_game = competitionData.competition_counter;
+    pokemon1.last_game = competitionData.length + 1;
     pokemon2.elo += elo_info[1][0];
     pokemon2.RD = elo_info[1][1];
-    pokemon2.last_game = competitionData.competition_counter;
-    pokemonData[parseInt(pokemon1.id) - 1] = pokemon1;
-    pokemonData[parseInt(pokemon2.id) - 1] = pokemon2;
-    competitionData.competition_counter += 1;
-    competitionData.competition_history.push(comp);
+    pokemon2.last_game = competitionData.length + 1;
+    const index1 = pokemonData.findIndex(p => p.name === pokemon1.name);
+    const index2 = pokemonData.findIndex(p => p.name === pokemon2.name);
+    if (index1 !== -1) {
+        pokemonData[index1] = pokemon1;
+    }
+    if (index2 !== -1) {
+        pokemonData[index2] = pokemon2;
+    }
+    competitionData.push(comp);
 
     // Update the globals
     _pokemonData = pokemonData;
@@ -326,7 +331,7 @@ function handleEloChangeAnimation(x, y, eloPlus) {
     }, 10);
 }
 
-async function prepareNewCompetition(pokemonData, competitionData) {
+async function prepareNewCompetition(pokemonData) {
     const newPokemonPair = selectTwoPokemon(pokemonData);
     updateHTML(newPokemonPair[0], newPokemonPair[1]);
     makeLeaderboard(await generateLeaderboard(pokemonData));
@@ -335,7 +340,7 @@ async function prepareNewCompetition(pokemonData, competitionData) {
 
 async function handlePokemonClick(x, y, winner, pokemon1, pokemon2,
     pokemonData, competitionData) {
-    const competition_number = competitionData.competition_counter;
+    const competition_number = competitionData.length + 1;
     const elo_info = calculateEloChange(pokemon1, pokemon2, winner, competition_number);
 
     const comp = createCompetitionLogEntry(pokemon1, pokemon2, winner, competition_number);
@@ -351,7 +356,7 @@ async function handlePokemonClick(x, y, winner, pokemon1, pokemon2,
 }
 
 async function handleDraw(pokemon1, pokemon2, pokemonData, competitionData) {
-    const competition_number = competitionData.competition_counter;
+    const competition_number = competitionData.length + 1;
     const elo_info = calculateEloChange(pokemon1, pokemon2, 0.5, competition_number);
 
     const comp = createCompetitionLogEntry(pokemon1, pokemon2, 0.5, competition_number);
@@ -371,7 +376,7 @@ async function handleDraw(pokemon1, pokemon2, pokemonData, competitionData) {
     }
 
     // Choose new Pokemon, update HTML
-    const newPokemonPair = await prepareNewCompetition(pokemonData, competitionData);
+    const newPokemonPair = await prepareNewCompetition(pokemonData);
     _pokemon1 = newPokemonPair[0];
     _pokemon2 = newPokemonPair[1];
 }
@@ -393,7 +398,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Fix any last_game errors from my stupid typo
     _pokemonData.forEach(pokemon => {
         if (pokemon.last_game === undefined) {
-            fixLastGame(pokemon, _competitionData.competition_history);
+            fixLastGame(pokemon, _competitionData);
         }
     });
 
