@@ -2,6 +2,7 @@ body {
     background-color: #333;
     color: #ddd;
     font-family: 'Helvetica Neue', sans-serif;
+    position: relative;
 }
 
 h1 {
@@ -12,10 +13,10 @@ h1 {
 
 .container {
     max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
 }
 
 .main-content {
@@ -35,6 +36,8 @@ h1 {
     margin: 0 5px;
     border-radius: 10px;
     border: 2px solid #888;
+    max-height: calc(100vh - 250px);
+    overflow: hidden;
 }
 
 .pokemon-container:hover {
@@ -50,8 +53,10 @@ h1 {
 
 .pokemon-container img {
     max-width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: contain;
 }
+
 
 .pokemon-name {
     font-size: 1.5em;
@@ -125,7 +130,7 @@ h1 {
 
 .draw-button {
     display: block;
-    margin: 0 auto;
+    margin: 10px auto 20px auto;
     font-size: 1.5em;
     font-weight: bold;
     padding: 10px 20px;
@@ -145,13 +150,44 @@ h1 {
     border-color: #bba52b;
 }
 
-.draw-button:active{
+.draw-button:active {
     transform: translateY(2px);
 }
 
 #lookupPageButton {
     display: block;
     margin: 20px auto;
+}
+
+.progress-bar-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.progress-text {
+    margin-right: 20px;
+    font-size: 16px;
+    color: #888;
+}
+
+.progress-bar {
+    width: 60%;
+    height: 20px;
+    background-color: #222;
+    border: 2px solid #888;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar-filled {
+    height: 100%;
+    background-color: #2ecc71;
+    /* Bright green */
+    width: 28.6%;
+    /* This width should be updated dynamically based on the progress */
 }
 
 #mainPageButton {
