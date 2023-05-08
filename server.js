@@ -52,6 +52,23 @@ app.get('/pokemon-data-init', async (req, res) => {
     }
 });
 
+app.get('/tier-descriptions', (req, res) => {
+    const tier = parseInt(req.query.tier);
+    fs.readFile('tier_descriptions.json', 'utf-8', (err, data) => {
+        if (err) {
+            console.error('Error reading JSON file:', err);
+            res.status(500).send('Error reading JSON file');
+            return;
+        }
+        const tierDescriptions = JSON.parse(data);
+        if (tier >= 1 && tier <= tierDescriptions.length) {
+            res.json(tierDescriptions[tier - 1]);
+        } else {
+            res.status(400).send('Invalid tier number');
+        }
+    });
+});
+
 
 app.post('/autocomplete', (req, res) => {
     const { term } = req.body;

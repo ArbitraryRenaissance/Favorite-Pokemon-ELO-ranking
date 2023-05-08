@@ -200,6 +200,50 @@ h1 {
     border: 1px solid #ddd;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #333;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    text-align: center;
+}
+
+#modalCloseButton {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ddd;
+    background-color: #444;
+    border: 2px solid #888;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+#modalCloseButton:hover {
+    background-color: #5f572b;
+    color: #bba52b;
+    border-color: #bba52b;
+}
+
+#modalCloseButton:active {
+    transform: translateY(2px);
+}
+
 #mainPageButton {
     position: absolute;
     top: 20px;

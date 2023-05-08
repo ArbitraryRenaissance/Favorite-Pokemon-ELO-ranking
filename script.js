@@ -64,7 +64,7 @@ async function getLeaderboard() {
 
 async function getCurrentTier(competitionData) {
     // Define the tier thresholds
-    const tierThresholds = [50, 100, 500, 1000, 2000, 5000, 10000];
+    const tierThresholds = [5, 50, 100, 200, 500, 1000, 2000, 5000, 10000];
 
     // Retrieve the currentTier from localStorage or set it to -1 if not found
     let currentTier = parseInt(localStorage.getItem('currentTier')) || -1;
@@ -80,8 +80,22 @@ async function getCurrentTier(competitionData) {
         currentTier = tierThresholds.length;
         localStorage.setItem('currentTier', currentTier);
     }
-    return currentTier;    
+    return currentTier;
 }
+
+async function loadTierDescriptions(tier) {
+    try {
+        const response = await fetch(`${apiBaseUrl}/tier-descriptions?tier=${tier}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+        }
+        const tierDescription = await response.json();
+        return tierDescription;
+    } catch (error) {
+        console.error('Error fetching tier description:', error);
+    }
+}
+
 
 async function updatePokemonData(pokemonData) {
     try {
@@ -423,14 +437,26 @@ function fixLastGame(pokemon, competition_history) {
     }
 }
 
-function updateProgressBar(currentCompleted) {
+function showModal(title, description) {
+    const tierModal = document.getElementById("tierModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDescription = document.getElementById("modalDescription");
+
+    modalTitle.textContent = title;
+    modalDescription.textContent = description;
+    tierModal.style.display = "block";
+}
+
+async function updateProgressBar(currentCompleted) {
     // Define the tier thresholds
-    const tierThresholds = [50, 100, 500, 1000, 2000, 5000, 10000];
+    const tierThresholds = [5, 50, 100, 200, 500, 1000, 2000, 5000, 10000];
 
     // Update the current tier if a new one is reached
     if (currentCompleted >= tierThresholds[_currentTier]) {
         _currentTier++;
         document.getElementById('tier-text').innerText = `Tier ${_currentTier}`;
+        const tier_text = await loadTierDescriptions(_currentTier);
+        showModal(tier_text.title, tier_text.description);
     }
 
     // Find the target for the next tier
@@ -452,6 +478,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     _pokemonData = await getPokemonData();
     _competitionData = await getCompetitionData();
     _currentTier = await getCurrentTier(_competitionData);
+    _currentTier = 0;
 
     _leaderboard = await getLeaderboard();
     [_pokemon1, _pokemon2] = selectTwoPokemon(_pokemonData);
@@ -477,4 +504,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         handleDraw(_pokemon1, _pokemon2, _pokemonData, _competitionData);
     });
     document.getElementById('undoButton').addEventListener('mouseup', undoLastMatch);
+
+    document.getElementById("modalCloseButton").onclick = function () {
+        tierModal.style.display = "none";
+    };
+
+    window.onclick = function (event) {
+        if (event.target === tierModal) {
+            tierModal.style.display = "none";
+        }
+    };
 });

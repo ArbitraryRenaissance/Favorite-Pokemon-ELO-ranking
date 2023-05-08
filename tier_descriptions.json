@@ -1,0 +1,47 @@
+[
+    {
+        "tier": 1,
+        "title": "Congratulations! You made it to Tier 1!",
+        "description": "Welcome to the Better Pokémon Selector!  This is a tool that finds out just how much you like each Pokémon.  Each Pokémon has an \"ELO\" rating, which starts at 1500.  The higher the ELO rating, the more you like that Pokémon.  The green number that you see whenever you choose a Pokémon tells you how much its ELO just increased by. Keep on clicking!"
+    },
+    {
+        "tier": 2,
+        "title": "Congratulations! You made it to Tier 2!",
+        "description": "Now that you've done 50 competitions, you have access to the Lookup Page.  If you want to know the ELO rating of any given Pokémon, you can look it up there.  You'll also find other useful information, like its current ranking (though that won't mean very much right now, since you've only done a handful of competitions), and a log of its previous matchups.  Feel free to check it out!"
+    },
+    {
+        "tier": 3,
+        "title": "Congratulations! You made it to Tier 3!",
+        "description": "At this point, you might be wondering just how many of these matchups you'll need to do before the site figures things out.  Well, there's about 1000 Pokémon now, so at the very least, you'll need to do a little over 500 matchups before you even have a chance at seeing all of the Pokémon.  But don't feel obligated to do 500 comparisons in one sitting!  All of your decisions are saved in local data, so if you get sick of staring at Pokémon after a while, feel free to come back later."
+    },
+    {
+        "tier": 4,
+        "title": "Congratulations! You made it to Tier 4!",
+        "description": "If it's starting to feel a bit like a grind, don't be afraid to go with your gut reaction!  You don't need to be super consistent when choosing which Pokémon you prefer.  In fact, you're expected to be a little bit inconsistent.  It should all even out in the long-run, so feel free to let your brain go on autopilot for a bit for the next several clicks.  Maybe even challenge yourself to spend only one second on each decision.  You'll be given a reward at the next tier, so keep at it!"
+    },
+    {
+        "tier": 5,
+        "title": "Congratulations! You made it to Tier 5!",
+        "description": "Alright, you've made 500 selections!  As a reward, you can now see the leaderboard!  It shows your top ten highest rated Pokémon.  You'll probably look at it and say \"Yeah, I like those Pokémon, but they are NOT my top ten.\"  All I have to say in response to that is, \"Hang in there.\"  It'll improve, slowly but surely, over time.  It's possible that you haven't even encountered your true favorites yet.  Give it time: that leaderboard will begin to take shape."
+    },
+    {
+        "tier": 6,
+        "title": "Congratulations! You made it to Tier 6!",
+        "description": "1000 matchups!  Nice!  At this point, each Pokémon should have been selected on average about twice, but in reality, some probably got selected three or four times, and some still might not have been picked yet.  I kind of evaded the question of how long it'll take before the site figures things out back when you reached tier 3.  The technical answer is that it never <i>truly</i> figures things out: it just becomes more and more refined.  You should expect things to really start settling in as you approach the next tier.  You've probably noticed by now that the decisions are starting to get harder and harder.  That's no accident: the site likes to pit up Pokémon that are closely rated to each other.  As a result, the longer you go, the more refined the rankings get."
+    },
+    {
+        "tier": 7,
+        "title": "Congratulations! You made it to Tier 7!",
+        "description": "You've completed 2000 matchups!  That takes some serious dedication, so good job!  Your top 10 list on your leaderboard may not be your exact top 10, but it should at least be among your top 20.  If you already know what your #1 favorite Pokémon is, and it's not already in the #1 spot on your leaderboard, it'll find its way there soon.  At this point, every Pokémon should have gotten chosen at least once, and most should have gotten chosen at least three times.  By the time you reach the next tier, you should be pretty happy with where things lie rating-wise.  Again, I kind of evaded the question of how long it'll take for the site to figure things out when you reached tier 6.  If you forced me to give a number, I'd say 5,000 matchups.  After 5,000 matchups, it should have things 98% figured out.  If you want to get the remaining 100%, then go to tier 9 and make 10,000 matchups.  But if you're not satisfied now, you should be satisfied once you've made it to tier 8."
+    },
+    {
+        "tier": 8,
+        "title": "Congratulations! You made it to Tier 8!",
+        "description": "You just reached 5000 matchups, and I couldn't be more proud of you!  If you're really up to the task, do 5000 more matchups and you'll be at tier 9.  That's the final tier though.  No more after that.  Have fun!"
+    },
+    {
+        "tier": 9,
+        "title": "Congratulations! You made it to Tier 9!",
+        "description": "Welp, you did it.  I can't say for sure how many hours you've spent on this, but it was more than you needed to.  Go and rest now.  Play something else.  I'm sure you have better things to do."
+    }
+]
