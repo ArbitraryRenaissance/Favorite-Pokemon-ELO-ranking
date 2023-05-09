@@ -154,7 +154,7 @@ h1 {
 }
 
 #lookupPageButton {
-    display: block;
+    display: none;
     margin: 20px auto;
 }
 
@@ -185,10 +185,6 @@ h1 {
 
 .progress-bar-filled {
     height: 100%;
-    background-color: #2ecc71;
-    /* Bright green */
-    width: 28.6%;
-    /* This width should be updated dynamically based on the progress */
 }
 
 .tier-text {

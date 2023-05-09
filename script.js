@@ -1,5 +1,18 @@
 import config from './config.js';
 const { apiBaseUrl } = config;
+const progressBarColors = [
+    '#2ecc71', // Tier 0: Light Green
+    '#00FFFF', // Tier 1: Cyan
+    '#4141f4', // Tier 2: Rich Blue
+    '#a34fed', // Tier 3: Lavender-Purple
+    '#fa65d5', // Tier 4: Pastel Pink
+    '#fc4040', // Tier 5: Red
+    '#FFA500', // Tier 6: Orange
+    '#fefe4e', // Tier 7: Yellow
+    '#FFD700', // Tier 8: Gold
+    '#FFD700'  // Tier 9: Gold
+];
+
 
 let _pokemonData;
 let _competitionData;
@@ -447,6 +460,23 @@ function showModal(title, description) {
     tierModal.style.display = "block";
 }
 
+function updateElementVisibility() {
+    const lookupPageButton = document.getElementById('lookupPageButton');
+    const leaderboardTable = document.getElementById('leaderboard-table');
+
+    if (_currentTier >= 2) {
+        lookupPageButton.style.display = 'block';
+    } else {
+        lookupPageButton.style.display = 'none';
+    }
+
+    if (_currentTier >= 5) {
+        leaderboardTable.style.display = 'block';
+    } else {
+        leaderboardTable.style.display = 'none';
+    }
+}
+
 async function updateProgressBar(currentCompleted) {
     // Define the tier thresholds
     const tierThresholds = [5, 50, 100, 200, 500, 1000, 2000, 5000, 10000];
@@ -456,6 +486,7 @@ async function updateProgressBar(currentCompleted) {
         _currentTier++;
         document.getElementById('tier-text').innerText = `Tier ${_currentTier}`;
         const tier_text = await loadTierDescriptions(_currentTier);
+        updateElementVisibility();
         showModal(tier_text.title, tier_text.description);
     }
 
@@ -465,8 +496,9 @@ async function updateProgressBar(currentCompleted) {
     // Calculate the completion percentage
     const completionPercentage = (currentCompleted / targetForNextTier) * 100;
 
-    // Update the progress bar's width
+    // Update the progress bar's width and choose its color
     const progressBarFilled = document.querySelector(".progress-bar-filled");
+    progressBarFilled.style.backgroundColor = progressBarColors[_currentTier];
     progressBarFilled.style.width = `${completionPercentage}%`;
 
     // Update the progress text
@@ -478,7 +510,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     _pokemonData = await getPokemonData();
     _competitionData = await getCompetitionData();
     _currentTier = await getCurrentTier(_competitionData);
-    _currentTier = 0;
+    updateElementVisibility();
 
     _leaderboard = await getLeaderboard();
     [_pokemon1, _pokemon2] = selectTwoPokemon(_pokemonData);
