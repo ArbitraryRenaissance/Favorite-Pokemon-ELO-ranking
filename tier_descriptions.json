@@ -12,7 +12,7 @@
     {
         "tier": 3,
         "title": "Congratulations! You made it to Tier 3!",
-        "description": "At this point, you might be wondering just how many of these matchups you'll need to do before the site figures things out.  Well, there's about 1000 Pokémon now, so at the very least, you'll need to do a little over 500 matchups before you even have a chance at seeing all of the Pokémon.  But don't feel obligated to do 500 comparisons in one sitting!  All of your decisions are saved in local data, so if you get sick of staring at Pokémon after a while, feel free to come back later."
+        "description": "At this point, you might be wondering just how many of these matchups you'll need to do before the site figures things out.  I don't have a precise answer, but if I had to give an estimate, it would be once you reach tier 9, which will be at 10,000 selections.  But don't fret!  Firstly, this isn't an all-or-nothing ordeal.  The more selections you make, the more accurate the ordering will become.  So if you decide to call it quits halfway through, you'll still have some good data on how much you like each Pokémon.  You can also put this down whenever you want and pick it up later: all your work will be saved automatically."
     },
     {
         "tier": 4,
@@ -22,26 +22,26 @@
     {
         "tier": 5,
         "title": "Congratulations! You made it to Tier 5!",
-        "description": "Alright, you've made 500 selections!  As a reward, you can now see the leaderboard!  It shows your top ten highest rated Pokémon.  You'll probably look at it and say \"Yeah, I like those Pokémon, but they are NOT my top ten.\"  All I have to say in response to that is, \"Hang in there.\"  It'll improve, slowly but surely, over time.  It's possible that you haven't even encountered your true favorites yet.  Give it time: that leaderboard will begin to take shape."
+        "description": "Alright, you've made 500 selections!  As a reward, you can now see the leaderboard!  It shows your top ten highest rated Pokémon at the current moment.  Since you're still in the early stages of selecting (you haven't even seen all the Pokémon yet!), the leaderboard won't look very refined right now.  As you continue, though, you should expect some of your favorites to bubble towards the top."
     },
     {
         "tier": 6,
         "title": "Congratulations! You made it to Tier 6!",
-        "description": "1000 matchups!  Nice!  At this point, each Pokémon should have been selected on average about twice, but in reality, some probably got selected three or four times, and some still might not have been picked yet.  I kind of evaded the question of how long it'll take before the site figures things out back when you reached tier 3.  The technical answer is that it never <i>truly</i> figures things out: it just becomes more and more refined.  You should expect things to really start settling in as you approach the next tier.  You've probably noticed by now that the decisions are starting to get harder and harder.  That's no accident: the site likes to pit up Pokémon that are closely rated to each other.  As a result, the longer you go, the more refined the rankings get."
+        "description": "1000 matchups!  Nice!  At this point, each Pokémon should have been selected on average about twice, but in reality, some probably got selected three or four times, and some still might not have been picked yet.  Your leaderboard probably still looks awkward, with quite a few tied ratings.  As you work towards the next tier, that will change: the leaderboard should start maturing, with each Pokémon taking a unique rating.  You've probably noticed by now that the decisions are starting to get harder and harder.  That's no accident: the site likes to pit up Pokémon that are closely rated to each other."
     },
     {
         "tier": 7,
         "title": "Congratulations! You made it to Tier 7!",
-        "description": "You've completed 2000 matchups!  That takes some serious dedication, so good job!  Your top 10 list on your leaderboard may not be your exact top 10, but it should at least be among your top 20.  If you already know what your #1 favorite Pokémon is, and it's not already in the #1 spot on your leaderboard, it'll find its way there soon.  At this point, every Pokémon should have gotten chosen at least once, and most should have gotten chosen at least three times.  By the time you reach the next tier, you should be pretty happy with where things lie rating-wise.  Again, I kind of evaded the question of how long it'll take for the site to figure things out when you reached tier 6.  If you forced me to give a number, I'd say 5,000 matchups.  After 5,000 matchups, it should have things 98% figured out.  If you want to get the remaining 100%, then go to tier 9 and make 10,000 matchups.  But if you're not satisfied now, you should be satisfied once you've made it to tier 8."
+        "description": "You've completed 2000 matchups!  That takes some serious dedication, so good job!  Your top 10 list on your leaderboard may not be your exact top 10, but at this point, it ought to be populated with Pokémon you really like.  At this point, every Pokémon should have gotten chosen at least once, and most should have gotten chosen at least three times.  As you approach the next tier, your leaderboard will finally start looking the way you think it should.  Your absolute favorites will start vying for positions in the leaderboard, and you'll wish that there were more than 10 spots."
     },
     {
         "tier": 8,
         "title": "Congratulations! You made it to Tier 8!",
-        "description": "You just reached 5000 matchups, and I couldn't be more proud of you!  If you're really up to the task, do 5000 more matchups and you'll be at tier 9.  That's the final tier though.  No more after that.  Have fun!"
+        "description": "You just reached 5000 matchups, and I couldn't be more proud of you!  If you're really up to the task, do 5000 more matchups to get to tier 9.  Most of the remaining irregularities will iron themselves out during this second half, and your journey will come to an end.  But you've already given this site enough data for it to have a pretty good idea of what you like and don't like."
     },
     {
         "tier": 9,
         "title": "Congratulations! You made it to Tier 9!",
-        "description": "Welp, you did it.  I can't say for sure how many hours you've spent on this, but it was more than you needed to.  Go and rest now.  Play something else.  I'm sure you have better things to do."
+        "description": "You've passed the gauntlet.  You've made 10,000 matchups.  At this point, every Pokémon should have participated in about 20 matchups, which is ample opportunity for each one to demonstrate where they fall in your rankings.  You're free to keep doing matchups to your heart's content, but at this point, it should look pretty good."
     }
 ]
