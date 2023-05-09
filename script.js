@@ -465,15 +465,15 @@ function updateElementVisibility() {
     const leaderboardTable = document.getElementById('leaderboard-table');
 
     if (_currentTier >= 2) {
-        lookupPageButton.style.display = 'block';
+        lookupPageButton.classList.remove('hidden');
     } else {
-        lookupPageButton.style.display = 'none';
+        lookupPageButton.classList.add('hidden');
     }
 
     if (_currentTier >= 5) {
-        leaderboardTable.style.display = 'block';
+        leaderboardTable.classList.remove('hidden');
     } else {
-        leaderboardTable.style.display = 'none';
+        leaderboardTable.classList.add('hidden');
     }
 }
 
@@ -488,6 +488,7 @@ async function updateProgressBar(currentCompleted) {
         const tier_text = await loadTierDescriptions(_currentTier);
         updateElementVisibility();
         showModal(tier_text.title, tier_text.description);
+        localStorage.setItem('currentTier', _currentTier);
     }
 
     // Find the target for the next tier

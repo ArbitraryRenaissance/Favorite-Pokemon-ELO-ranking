@@ -11,6 +11,10 @@ h1 {
     text-align: center;
 }
 
+.hidden {
+    display: none;
+}
+
 .container {
     max-width: 1000px;
     text-align: center;
@@ -76,7 +80,7 @@ h1 {
     transition: translateY(-30px);
 }
 
-#leaderboard-table {
+.rhs-container{
     position: absolute;
     top: 0;
     right: 0;
@@ -154,7 +158,6 @@ h1 {
 }
 
 #lookupPageButton {
-    display: none;
     margin: 20px auto;
 }
 
