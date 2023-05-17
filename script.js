@@ -268,10 +268,19 @@ async function updateHTML(pokemonA, pokemonB) {
     const pokemon2Name = document.getElementById("pokemon2-name");
 
     // Generate two random Pokemon and update the HTML elements
-    pokemon1Img.src = pokemonA.png;
-    pokemon1Name.innerText = pokemonA.name;
-    pokemon2Img.src = pokemonB.png;
-    pokemon2Name.innerText = pokemonB.name;
+    preloadImage(pokemonA).then(() => {
+        pokemon1Img.src = `${apiBaseUrl}/${pokemonA.png}`;
+        pokemon1Name.innerText = pokemonA.name;
+    }).catch(error => {
+        console.error(`Failed to load image for ${pokemonA.name}: ${error}`);
+    });
+    
+    preloadImage(pokemonB).then(() => {
+        pokemon2Img.src = `${apiBaseUrl}/${pokemonB.png}`;
+        pokemon2Name.innerText = pokemonB.name;
+    }).catch(error => {
+        console.error(`Failed to load image for ${pokemonB.name}: ${error}`);
+    });
 
     // Update the progress bar
     updateProgressBar(_competitionData.length);
@@ -539,12 +548,17 @@ async function updateProgressBar(currentCompleted) {
 }
 
 function preloadImage(pokemon) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => resolve(pokemon);
-        img.onerror = () => reject(new Error(`Failed to load image for ${pokemon.name}`));
-        img.src = pokemon.png;
-    });
+    return fetch(`${apiBaseUrl}/${pokemon.png}`, { cache: 'force-cache' })
+        .then(response => response.blob())
+        .then(blob => {
+            const img = new Image();
+            img.onload = () => URL.revokeObjectURL(img.src);  // release memory once the image is loaded
+            img.src = URL.createObjectURL(blob);
+            return pokemon;
+        })
+        .catch(error => {
+            throw new Error(`Failed to load image for ${pokemon.name}: ${error}`);
+        });
 }
 
 // This function manages the preload queue

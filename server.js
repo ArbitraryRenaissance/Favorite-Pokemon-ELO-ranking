@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const path = require('path');
+const oneDay = 86400000;
 
 app.use(bodyParser.json({ limit: '50mb' })); // increase the limit to 50mb
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
@@ -20,6 +22,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname), {
+    maxAge: oneDay,
+    setHeaders: function (res, path, stat) {
+        res.set('Cache-Control', 'public, max-age=86400');
+    }
+}));
 
 async function generatePokemonData() {
     return new Promise((resolve, reject) => {
