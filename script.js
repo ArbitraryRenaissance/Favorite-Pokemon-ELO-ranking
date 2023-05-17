@@ -559,13 +559,12 @@ async function managePreloadQueue() {
         updatePreloadQueue(_preloadQueue);
     }
 
-    // Preload the image of the first pair in the queue that hasn't been preloaded
+    // Preload the image of the pairs that haven't been preloaded
     for (const pokemon of _preloadQueue) {
         if (!pokemon.preloaded) {
             await preloadImage(pokemon.pair[0]);
             await preloadImage(pokemon.pair[1]);
             pokemon.preloaded = true;
-            break;
         }
     }
 }
