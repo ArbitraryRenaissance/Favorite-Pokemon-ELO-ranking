@@ -12,11 +12,17 @@ const cors = require('cors');
 const allowedOrigins = ['http://localhost:8080', 'https://www.betterpokemon.app'];
 const corsOptions = {
     origin: function (origin, callback) {
-        if (allowedOrigins.indexOf(origin) !== -1) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
         }
+    }
+};
+
+const test_corsOptions = {
+    origin: function (origin, callback) {
+        callback(null, true);  // Allow all origins
     }
 };
 app.use(cors(corsOptions));
