@@ -13,13 +13,14 @@ const progressBarColors = [
     '#FFD700'  // Tier 9: Gold
 ];
 
-
 let _pokemonData;
 let _competitionData;
 let _pokemon1;
 let _pokemon2;
 let _leaderboard;
 let _currentTier;
+let _preloadQueue;
+
 
 async function getPokemonData() {
     try {
@@ -57,6 +58,21 @@ async function getCompetitionData() {
         console.error(error);
     }
 }
+
+async function getPreloadQueue() {
+    try {
+        const localData = localStorage.getItem('preloadQueue');
+        if (localData) {
+            return JSON.parse(localData);
+        }
+        let preloadQueue = [];
+        localStorage.setItem('preloadQueue', JSON.stringify(preloadQueue));
+
+        return preloadQueue;
+    } catch (error) {
+        console.error(error);
+    }
+} 
 
 async function getLeaderboard() {
     try {
@@ -124,6 +140,14 @@ async function updateCompetitionData(competitionData) {
     } catch (error) {
         console.error(error);
     }
+}
+
+async function updatePreloadQueue(preloadQueue) {
+    try {
+        localStorage.setItem('preloadQueue', JSON.stringify(preloadQueue));
+    } catch (error) {
+        console.error(error);
+    } 
 }
 
 async function updateLeaderboard(leaderboard) {
@@ -270,6 +294,9 @@ async function undoLastMatch() {
     _pokemon1 = previousPokemon1;
     _pokemon2 = previousPokemon2;
 
+    // Add back the undone pair to the preloadQueue
+    _preloadQueue.unshift({ pair: [_pokemon1, _pokemon2], preloaded: true });
+
     // update _pokemonData
     _pokemonData[parseInt(_pokemon1.id) - 1] = _pokemon1;
     _pokemonData[parseInt(_pokemon2.id) - 1] = _pokemon2;
@@ -281,6 +308,7 @@ async function undoLastMatch() {
     await updatePokemonData(_pokemonData);
     await updateCompetitionData(_competitionData);
     await updateLeaderboard(_leaderboard);
+    await updatePreloadQueue(_preloadQueue);
 
     // Update the HTML
     makeLeaderboard(_leaderboard);
@@ -356,6 +384,8 @@ async function updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, compe
     // Update the globals
     _pokemonData = pokemonData;
     _competitionData = competitionData;
+    _preloadQueue.shift();
+    managePreloadQueue();
 
     // Refresh the leaderboard
     _leaderboard = await generateLeaderboard(pokemonData);
@@ -364,6 +394,7 @@ async function updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, compe
     await updatePokemonData(pokemonData);
     await updateCompetitionData(competitionData);
     await updateLeaderboard(_leaderboard);
+    await updatePreloadQueue(_preloadQueue);
 }
 
 function handleEloChangeAnimation(x, y, eloPlus) {
@@ -391,7 +422,7 @@ function handleEloChangeAnimation(x, y, eloPlus) {
 }
 
 async function prepareNewCompetition(pokemonData) {
-    const newPokemonPair = selectTwoPokemon(pokemonData);
+    const newPokemonPair = await getNextPair();
     updateHTML(newPokemonPair[0], newPokemonPair[1]);
     makeLeaderboard(await generateLeaderboard(pokemonData));
     return newPokemonPair;
@@ -409,7 +440,7 @@ async function handlePokemonClick(x, y, winner, pokemon1, pokemon2,
     handleEloChangeAnimation(x, y, eloPlus);
 
     // Choose new Pokemon, update HTML
-    const newPokemonPair = await prepareNewCompetition(pokemonData, competitionData);
+    const newPokemonPair = await prepareNewCompetition(pokemonData);
     _pokemon1 = newPokemonPair[0];
     _pokemon2 = newPokemonPair[1];
 }
@@ -507,6 +538,49 @@ async function updateProgressBar(currentCompleted) {
     progressText.textContent = `${currentCompleted}/${targetForNextTier}`;
 }
 
+function preloadImage(pokemon) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(pokemon);
+        img.onerror = () => reject(new Error(`Failed to load image for ${pokemon.name}`));
+        img.src = pokemon.png;
+    });
+}
+
+// This function manages the preload queue
+async function managePreloadQueue() {
+    // If there are less than 5 Pokemon pairs in the queue, add more
+    while (_preloadQueue.length < 5) {
+        const newPokemonPair = selectTwoPokemon(_pokemonData);
+        _preloadQueue.push({
+            pair: newPokemonPair,
+            preloaded: false
+        });
+        updatePreloadQueue(_preloadQueue);
+    }
+
+    // Preload the image of the first pair in the queue that hasn't been preloaded
+    for (const pokemon of _preloadQueue) {
+        if (!pokemon.preloaded) {
+            await preloadImage(pokemon.pair[0]);
+            await preloadImage(pokemon.pair[1]);
+            pokemon.preloaded = true;
+            break;
+        }
+    }
+}
+
+async function getNextPair() {
+    // Wait until the first pair in the queue has been preloaded
+    while (!_preloadQueue[0].preloaded) {
+        // Add a delay here to avoid hogging the CPU
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    // Return the first pair from the queue without removing it
+    return _preloadQueue[0].pair;
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
     _pokemonData = await getPokemonData();
     _competitionData = await getCompetitionData();
@@ -514,7 +588,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     updateElementVisibility();
 
     _leaderboard = await getLeaderboard();
-    [_pokemon1, _pokemon2] = selectTwoPokemon(_pokemonData);
+    _preloadQueue = await getPreloadQueue();
+    managePreloadQueue();
+    [_pokemon1, _pokemon2] = await getNextPair();
     updateHTML(_pokemon1, _pokemon2);
     makeLeaderboard(_leaderboard);
 
