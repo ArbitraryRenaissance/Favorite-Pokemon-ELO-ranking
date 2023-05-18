@@ -20,7 +20,7 @@ let _pokemon2;
 let _leaderboard;
 let _currentTier;
 let _preloadQueue;
-
+const imageCache = new Map();
 
 async function getPokemonData() {
     try {
@@ -269,14 +269,14 @@ async function updateHTML(pokemonA, pokemonB) {
 
     // Generate two random Pokemon and update the HTML elements
     preloadImage(pokemonA).then(() => {
-        pokemon1Img.src = `${apiBaseUrl}/${pokemonA.png}`;
+        pokemon1Img.src = imageCache.get(`${apiBaseUrl}/${pokemonA.png}`);
         pokemon1Name.innerText = pokemonA.name;
     }).catch(error => {
         console.error(`Failed to load image for ${pokemonA.name}: ${error}`);
-    });
+    });    
     
     preloadImage(pokemonB).then(() => {
-        pokemon2Img.src = `${apiBaseUrl}/${pokemonB.png}`;
+        pokemon2Img.src = imageCache.get(`${apiBaseUrl}/${pokemonB.png}`);
         pokemon2Name.innerText = pokemonB.name;
     }).catch(error => {
         console.error(`Failed to load image for ${pokemonB.name}: ${error}`);
@@ -548,12 +548,21 @@ async function updateProgressBar(currentCompleted) {
 }
 
 function preloadImage(pokemon) {
-    return fetch(`${apiBaseUrl}/${pokemon.png}`, { cache: 'force-cache' })
+    const imageUrl = `${apiBaseUrl}/${pokemon.png}`;
+
+    // If image is already preloaded, return the Pokemon immediately
+    if (imageCache.has(imageUrl)) {
+        return Promise.resolve(pokemon);
+    }
+
+    return fetch(imageUrl, { cache: 'force-cache' })
         .then(response => response.blob())
         .then(blob => {
             const img = new Image();
-            img.onload = () => URL.revokeObjectURL(img.src);  // release memory once the image is loaded
-            img.src = URL.createObjectURL(blob);
+            const blobUrl = URL.createObjectURL(blob);
+            img.onload = () => URL.revokeObjectURL(blobUrl);  // release memory once the image is loaded
+
+            imageCache.set(imageUrl, blobUrl);  // store the blobUrl in the map
             return pokemon;
         })
         .catch(error => {
