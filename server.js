@@ -104,6 +104,15 @@ app.post('/autocomplete', (req, res) => {
     });
 });
 
+/* Clean URLs */
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+app.get('/lookup', function (req, res) {
+    res.sendFile(path.join(__dirname + '/lookup.html'));
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

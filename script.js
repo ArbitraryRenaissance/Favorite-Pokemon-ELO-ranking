@@ -619,7 +619,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById('tier-text').innerText = `Tier ${_currentTier}`;
 
     document.getElementById('lookupPageButton').addEventListener('click', () => {
-        window.location.href = 'lookup.html';
+        window.location.href = '/lookup';
     });
     document.getElementById("pokemon1").addEventListener("mouseup", function (event) {
         const x = event.clientX;
