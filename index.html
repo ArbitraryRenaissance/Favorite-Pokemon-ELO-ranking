@@ -31,7 +31,7 @@
         </div>
         <div class="tier-text" id="tier-text"></div>
       </div>
-    </div>    
+    </div>
   </div>
   <div class="rhs-container">
     <div class="hidden" id="leaderboard-table">
@@ -43,14 +43,71 @@
     </div>
     <button class="navigation-button hidden" id="lookupPageButton">Go to Lookup Page</button>
   </div>
-  
+
+  <div id="optionsContainer" class="options-container">
+    <button id="optionsButton" class="options-button">Options</button>
+    <div id="optionsMenu" class="options-menu">
+      <div class="options-section">
+        <h3>Generations</h3>
+        <p>Select the generations you wish to see (Pokemon from Legends: Arceus are generation 8).</p>
+        <div class="checkbox-group">
+          <input type="checkbox" id="gen1" name="gen1">
+          <label for="gen1">1</label>
+          <input type="checkbox" id="gen2" name="gen2">
+          <label for="gen1">2</label>
+          <input type="checkbox" id="gen3" name="gen3">
+          <label for="gen1">3</label>
+          <input type="checkbox" id="gen4" name="gen4">
+          <label for="gen1">4</label>
+          <input type="checkbox" id="gen5" name="gen5">
+          <label for="gen1">5</label>
+          <input type="checkbox" id="gen6" name="gen6">
+          <label for="gen1">6</label>
+          <input type="checkbox" id="gen7" name="gen7">
+          <label for="gen1">7</label>
+          <input type="checkbox" id="gen8" name="gen8">
+          <label for="gen1">8</label>
+          <input type="checkbox" id="gen9" name="gen9">
+          <label for="gen1">9</label>
+        </div>
+      </div>
+      <div class="options-section">
+        <h3>Variants</h3>
+        <p>Select which variants you wish to include.</p>
+        <div class="checkbox-group">
+          <input type="checkbox" id="mega" name="mega">
+          <label for="mega">Mega evolutions</label>
+          <input type="checkbox" id="gigantimax" name="gigantimax">
+          <label for="gigantimax">Gigantimax forms</label>
+          <input type="checkbox" id="gender" name="gender">
+          <label for="gender">Gendered variants</label>
+        </div>
+        <p>Regional variants:</p>
+        <div class="checkbox-group">
+          <input type="checkbox" id="alolan" name="alolan">
+          <label for="alolan">Alolan</label>
+          <input type="checkbox" id="galarian" name="galarian">
+          <label for="galarian">Galarian</label>
+          <input type="checkbox" id="hisuian" name="hisuian">
+          <label for="hisuian">Hisuian</label>
+          <input type="checkbox" id="paldean" name="paldean">
+          <label for="paldean">Paldean</label>
+        </div>
+      </div>
+      <div class="options-section">
+        <button id="saveButton" class="options-menu-button">Save</button>
+        <button id="cancelButton" class="options-menu-button">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div id="tierModal" class="modal">
     <div class="modal-content">
       <h2 id="modalTitle"></h2>
       <p id="modalDescription"></p>
       <button id="modalCloseButton">OK</button>
     </div>
-  </div>  
+  </div>
 
   <script type="module" src="script.js"></script>
 </body>

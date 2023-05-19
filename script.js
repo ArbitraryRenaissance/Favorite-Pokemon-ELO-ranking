@@ -72,7 +72,7 @@ async function getPreloadQueue() {
     } catch (error) {
         console.error(error);
     }
-} 
+}
 
 async function getLeaderboard() {
     try {
@@ -125,10 +125,53 @@ async function loadTierDescriptions(tier) {
     }
 }
 
-
 async function updatePokemonData(pokemonData) {
     try {
         localStorage.setItem('pokemonData', JSON.stringify(pokemonData));
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function updatePokemonDataToLatestVersion() {
+    try {
+        let pokemonData = await getPokemonData();
+
+        // Check if update is needed.
+        if (pokemonData.length >= 1152) {
+            return;
+        }
+
+        const response = await fetch(`${apiBaseUrl}/pokemon-data-init`);
+        const latestData = await response.json();
+
+        let dataMap = new Map();
+        latestData.forEach(pokemon => {
+            dataMap.set(pokemon.name, pokemon);
+        });
+
+        // Add missing fields.
+        pokemonData.forEach(pokemon => {
+            if (!pokemon.hasOwnProperty('generation')) {
+                pokemon.generation = dataMap.get(pokemon.name).generation;
+            }
+            if (!pokemon.hasOwnProperty('variants')) {
+                pokemon.variants = dataMap.get(pokemon.name).variants;
+            }
+            if (!pokemon.hasOwnProperty('isactive')) {
+                pokemon.isactive = dataMap.get(pokemon.name).isactive;
+            }
+        });
+
+        // Add missing pokemon.
+        latestData.forEach(pokemon => {
+            if (!pokemonData.find(p => p.name === pokemon.name)) {
+                pokemonData.push(pokemon);
+            }
+        });
+
+        // Save updated data.
+        await updatePokemonData(pokemonData);
     } catch (error) {
         console.error(error);
     }
@@ -147,7 +190,7 @@ async function updatePreloadQueue(preloadQueue) {
         localStorage.setItem('preloadQueue', JSON.stringify(preloadQueue));
     } catch (error) {
         console.error(error);
-    } 
+    }
 }
 
 async function updateLeaderboard(leaderboard) {
@@ -273,8 +316,8 @@ async function updateHTML(pokemonA, pokemonB) {
         pokemon1Name.innerText = pokemonA.name;
     }).catch(error => {
         console.error(`Failed to load image for ${pokemonA.name}: ${error}`);
-    });    
-    
+    });
+
     preloadImage(pokemonB).then(() => {
         pokemon2Img.src = imageCache.get(`${apiBaseUrl}/${pokemonB.png}`);
         pokemon2Name.innerText = pokemonB.name;
@@ -604,6 +647,7 @@ async function getNextPair() {
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
+    updatePokemonDataToLatestVersion();
     _pokemonData = await getPokemonData();
     _competitionData = await getCompetitionData();
     _currentTier = await getCurrentTier(_competitionData);
@@ -645,4 +689,28 @@ document.addEventListener("DOMContentLoaded", async function () {
             tierModal.style.display = "none";
         }
     };
+
+    const saveButton = document.querySelector('#saveButton');
+    const cancelButton = document.querySelector('#cancelButton');
+    const optionsContainer = document.querySelector("#optionsContainer");
+    const optionsMenu = document.querySelector("#optionsMenu");
+    const optionsButton = document.querySelector("#optionsButton");
+
+    optionsButton.addEventListener("click", function () {
+        optionsContainer.style.transform = `translateY(0)`;
+    });
 });
+
+window.onload = function() {
+    const optionsContainer = document.querySelector(".options-container");
+    const optionsMenu = document.querySelector(".options-menu");
+
+    // Shift the container down by the menu's height
+    optionsContainer.style.transform = `translateY(${optionsMenu.offsetHeight}px)`;
+
+    // Restore the original transition and make the container visible
+    setTimeout(() => {
+        optionsContainer.style.transition = 'transform 0.3s';
+        optionsContainer.style.opacity = "1";
+    }, 1);
+};

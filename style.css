@@ -80,7 +80,7 @@ h1 {
     transition: translateY(-30px);
 }
 
-.rhs-container{
+.rhs-container {
     position: absolute;
     top: 0;
     right: 0;
@@ -241,6 +241,84 @@ h1 {
 
 #modalCloseButton:active {
     transform: translateY(2px);
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    transform: translateY(0);
+    transition: transform 0s;
+    opacity: 0; /* hide initially */
+    z-index: 1;
+}
+
+.options-button {
+    align-self: flex-start;
+    background-color: #444;
+    color: #ddd;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    width: auto;
+    border: 2px solid #888;
+    border-bottom: 2px solid #444;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.options-button:hover {
+    background-color: #5f572b;
+    color: #bba52b;
+    border-color: #bba52b;
+    border-bottom: 2px solid #5f572b;
+}
+
+.options-menu {
+    background-color: #444;
+    border: 2px solid #888;
+    padding: 10px;
+    width: auto;
+    z-index: 1;
+}
+
+.options-menu-button {
+    float: right;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ddd;
+    background-color: #444;
+    border: 2px solid #888;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.options-menu-button:hover {
+    background-color: #5f572b;
+    color: #bba52b;
+    border-color: #bba52b;
+}
+
+#cancelButton {
+    margin-left: 10px;
+}
+
+.show {
+    transform: translateY(calc(-1 * 100%)); 
+}
+
+.options-section {
+    margin-bottom: 20px;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 20px;
 }
 
 #mainPageButton {

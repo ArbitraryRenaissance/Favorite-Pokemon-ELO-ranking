@@ -11216,7 +11216,7 @@
     {
         "name": "Mega Venusaur",
         "id": "0003",
-        "png": "pkmnlist/0003_Venusaur/0003-mega_venusaur-mega.png",
+        "png": "pkmnlist/0003_Venusaur/0003-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11255,7 +11255,7 @@
     {
         "name": "Mega Blastoise",
         "id": "0009",
-        "png": "pkmnlist/0009_Blastoise/0009-mega_blastoise-mega.png",
+        "png": "pkmnlist/0009_Blastoise/0009-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11268,7 +11268,7 @@
     {
         "name": "Mega Alakazam",
         "id": "0065",
-        "png": "pkmnlist/0065_Alakazam/0065-mega_alakazam-mega.png",
+        "png": "pkmnlist/0065_Alakazam/0065-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11281,7 +11281,7 @@
     {
         "name": "Mega Gengar",
         "id": "0094",
-        "png": "pkmnlist/0094_Gengar/0094-mega_gengar-mega.png",
+        "png": "pkmnlist/0094_Gengar/0094-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11294,7 +11294,7 @@
     {
         "name": "Mega Kangaskhan",
         "id": "0115",
-        "png": "pkmnlist/0115_Kangaskhan/0115-mega_kangaskhan-mega.png",
+        "png": "pkmnlist/0115_Kangaskhan/0115-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11307,7 +11307,7 @@
     {
         "name": "Mega Pinsir",
         "id": "0127",
-        "png": "pkmnlist/0127_Pinsir/0127-mega_pinsir-mega.png",
+        "png": "pkmnlist/0127_Pinsir/0127-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11320,7 +11320,7 @@
     {
         "name": "Mega Gyarados",
         "id": "0130",
-        "png": "pkmnlist/0130_Gyarados/0130-mega_gyarados-mega.png",
+        "png": "pkmnlist/0130_Gyarados/0130-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11333,7 +11333,7 @@
     {
         "name": "Mega Aerodactyl",
         "id": "0142",
-        "png": "pkmnlist/0142_Aerodactyl/0142-mega_aerodactyl-mega.png",
+        "png": "pkmnlist/0142_Aerodactyl/0142-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11372,7 +11372,7 @@
     {
         "name": "Mega Ampharos",
         "id": "0181",
-        "png": "pkmnlist/0181_Ampharos/0181-mega_ampharos-mega.png",
+        "png": "pkmnlist/0181_Ampharos/0181-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11385,7 +11385,7 @@
     {
         "name": "Mega Scizor",
         "id": "0212",
-        "png": "pkmnlist/0212_Scizor/0212-mega_scizor-mega.png",
+        "png": "pkmnlist/0212_Scizor/0212-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11398,7 +11398,7 @@
     {
         "name": "Mega Heracross",
         "id": "0214",
-        "png": "pkmnlist/0214_Heracross/0214-mega_heracross-mega.png",
+        "png": "pkmnlist/0214_Heracross/0214-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11411,7 +11411,7 @@
     {
         "name": "Mega Houndoom",
         "id": "0229",
-        "png": "pkmnlist/0229_Houndoom/0229-mega_houndoom-mega.png",
+        "png": "pkmnlist/0229_Houndoom/0229-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11424,7 +11424,7 @@
     {
         "name": "Mega Tyranitar",
         "id": "0248",
-        "png": "pkmnlist/0248_Tyranitar/0248-mega_tyranitar-mega.png",
+        "png": "pkmnlist/0248_Tyranitar/0248-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11437,7 +11437,7 @@
     {
         "name": "Mega Blaziken",
         "id": "0257",
-        "png": "pkmnlist/0257_Blaziken/0257-mega_blaziken-mega.png",
+        "png": "pkmnlist/0257_Blaziken/0257-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11450,7 +11450,7 @@
     {
         "name": "Mega Gardevoir",
         "id": "0282",
-        "png": "pkmnlist/0282_Gardevoir/0282-mega_gardevoir-mega.png",
+        "png": "pkmnlist/0282_Gardevoir/0282-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11463,7 +11463,7 @@
     {
         "name": "Mega Mawile",
         "id": "0303",
-        "png": "pkmnlist/0303_Mawile/0303-mega_mawile-mega.png",
+        "png": "pkmnlist/0303_Mawile/0303-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11476,7 +11476,7 @@
     {
         "name": "Mega Aggron",
         "id": "0306",
-        "png": "pkmnlist/0306_Aggron/0306-mega_aggron-mega.png",
+        "png": "pkmnlist/0306_Aggron/0306-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11489,7 +11489,7 @@
     {
         "name": "Mega Medicham",
         "id": "0308",
-        "png": "pkmnlist/0308_Medicham/0308-mega_medicham-mega.png",
+        "png": "pkmnlist/0308_Medicham/0308-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11502,7 +11502,7 @@
     {
         "name": "Mega Manectric",
         "id": "0310",
-        "png": "pkmnlist/0310_Manectric/0310-mega_manectric-mega.png",
+        "png": "pkmnlist/0310_Manectric/0310-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11515,7 +11515,7 @@
     {
         "name": "Mega Banette",
         "id": "0354",
-        "png": "pkmnlist/0354_Banette/0354-mega_banette-mega.png",
+        "png": "pkmnlist/0354_Banette/0354-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11528,7 +11528,7 @@
     {
         "name": "Mega Absol",
         "id": "0359",
-        "png": "pkmnlist/0359_Absol/0359-mega_absol-mega.png",
+        "png": "pkmnlist/0359_Absol/0359-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11541,7 +11541,7 @@
     {
         "name": "Mega Garchomp",
         "id": "0445",
-        "png": "pkmnlist/0445_Garchomp/0445-mega_garchomp-mega.png",
+        "png": "pkmnlist/0445_Garchomp/0445-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11554,7 +11554,7 @@
     {
         "name": "Mega Lucario",
         "id": "0448",
-        "png": "pkmnlist/0448_Lucario/0448-mega_lucario-mega.png",
+        "png": "pkmnlist/0448_Lucario/0448-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11567,7 +11567,7 @@
     {
         "name": "Mega Abomasnow",
         "id": "0460",
-        "png": "pkmnlist/0460_Abomasnow/0460-mega_abomasnow-mega.png",
+        "png": "pkmnlist/0460_Abomasnow/0460-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11580,7 +11580,7 @@
     {
         "name": "Mega Latias",
         "id": "0380",
-        "png": "pkmnlist/0380_Latias/0380-mega_latias-mega.png",
+        "png": "pkmnlist/0380_Latias/0380-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11593,7 +11593,7 @@
     {
         "name": "Mega Latios",
         "id": "0381",
-        "png": "pkmnlist/0381_Latios/0381-mega_latios-mega.png",
+        "png": "pkmnlist/0381_Latios/0381-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11606,7 +11606,7 @@
     {
         "name": "Mega Swampert",
         "id": "0260",
-        "png": "pkmnlist/0260_Swampert/0260-mega_swampert-mega.png",
+        "png": "pkmnlist/0260_Swampert/0260-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11619,7 +11619,7 @@
     {
         "name": "Mega Sceptile",
         "id": "0254",
-        "png": "pkmnlist/0254_Sceptile/0254-mega_sceptile-mega.png",
+        "png": "pkmnlist/0254_Sceptile/0254-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11632,7 +11632,7 @@
     {
         "name": "Mega Sableye",
         "id": "0302",
-        "png": "pkmnlist/0302_Sableye/0302-mega_sableye-mega.png",
+        "png": "pkmnlist/0302_Sableye/0302-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11645,7 +11645,7 @@
     {
         "name": "Mega Altaria",
         "id": "0334",
-        "png": "pkmnlist/0334_Altaria/0334-mega_altaria-mega.png",
+        "png": "pkmnlist/0334_Altaria/0334-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11658,7 +11658,7 @@
     {
         "name": "Mega Gallade",
         "id": "0475",
-        "png": "pkmnlist/0475_Gallade/0475-mega_gallade-mega.png",
+        "png": "pkmnlist/0475_Gallade/0475-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11671,7 +11671,7 @@
     {
         "name": "Mega Audino",
         "id": "0531",
-        "png": "pkmnlist/0531_Audino/0531-mega_audino-mega.png",
+        "png": "pkmnlist/0531_Audino/0531-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11684,7 +11684,7 @@
     {
         "name": "Mega Sharpedo",
         "id": "0319",
-        "png": "pkmnlist/0319_Sharpedo/0319-mega_sharpedo-mega.png",
+        "png": "pkmnlist/0319_Sharpedo/0319-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11697,7 +11697,7 @@
     {
         "name": "Mega Slowbro",
         "id": "0080",
-        "png": "pkmnlist/0080_Slowbro/0080-mega_slowbro-mega.png",
+        "png": "pkmnlist/0080_Slowbro/0080-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11710,7 +11710,7 @@
     {
         "name": "Mega Steelix",
         "id": "0208",
-        "png": "pkmnlist/0208_Steelix/0208-mega_steelix-mega.png",
+        "png": "pkmnlist/0208_Steelix/0208-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11723,7 +11723,7 @@
     {
         "name": "Mega Pidgeot",
         "id": "0018",
-        "png": "pkmnlist/0018_Pidgeot/0018-mega_pidgeot-mega.png",
+        "png": "pkmnlist/0018_Pidgeot/0018-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11736,7 +11736,7 @@
     {
         "name": "Mega Glalie",
         "id": "0362",
-        "png": "pkmnlist/0362_Glalie/0362-mega_glalie-mega.png",
+        "png": "pkmnlist/0362_Glalie/0362-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11749,7 +11749,7 @@
     {
         "name": "Mega Diancie",
         "id": "0719",
-        "png": "pkmnlist/0719_Diancie/0719-mega_diancie-mega.png",
+        "png": "pkmnlist/0719_Diancie/0719-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11762,7 +11762,7 @@
     {
         "name": "Mega Metagross",
         "id": "0376",
-        "png": "pkmnlist/0376_Metagross/0376-mega_metagross-mega.png",
+        "png": "pkmnlist/0376_Metagross/0376-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11775,7 +11775,7 @@
     {
         "name": "Mega Rayquaza",
         "id": "0384",
-        "png": "pkmnlist/0384_Rayquaza/0384-mega_rayquaza-mega.png",
+        "png": "pkmnlist/0384_Rayquaza/0384-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11788,7 +11788,7 @@
     {
         "name": "Mega Camerupt",
         "id": "0323",
-        "png": "pkmnlist/0323_Camerupt/0323-mega_camerupt-mega.png",
+        "png": "pkmnlist/0323_Camerupt/0323-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11801,7 +11801,7 @@
     {
         "name": "Mega Lopunny",
         "id": "0428",
-        "png": "pkmnlist/0428_Lopunny/0428-mega_lopunny-mega.png",
+        "png": "pkmnlist/0428_Lopunny/0428-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11814,7 +11814,7 @@
     {
         "name": "Mega Salamence",
         "id": "0373",
-        "png": "pkmnlist/0373_Salamence/0373-mega_salamence-mega.png",
+        "png": "pkmnlist/0373_Salamence/0373-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -11827,7 +11827,7 @@
     {
         "name": "Mega Beedrill",
         "id": "0015",
-        "png": "pkmnlist/0015_Beedrill/0015-mega_beedrill-mega.png",
+        "png": "pkmnlist/0015_Beedrill/0015-mega.png",
         "elo": 1500,
         "RD": 350,
         "last_game": 0,
@@ -12538,7 +12538,8 @@
             "paldean"
         ],
         "isactive": true
-    },{
+    },
+    {
         "name": "Pantalan Wooper",
         "id": "0194",
         "png": "pkmnlist/0194_Wooper/0194-paldea.png",
@@ -12548,6 +12549,409 @@
         "generation": 9,
         "variants": [
             "paldean"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Charizard",
+        "id": "0006",
+        "png": "pkmnlist/0006_Charizard/0006-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Butterfree",
+        "id": "0012",
+        "png": "pkmnlist/0012_Butterfree/0012-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Pikachu",
+        "id": "0025",
+        "png": "pkmnlist/0025_Pikachu/0025-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Meowth",
+        "id": "0052",
+        "png": "pkmnlist/0052_Meowth/0052-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Machamp",
+        "id": "0068",
+        "png": "pkmnlist/0068_Machamp/0068-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Gengar",
+        "id": "0094",
+        "png": "pkmnlist/0094_Gengar/0094-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Kingler",
+        "id": "0099",
+        "png": "pkmnlist/0099_Kingler/0099-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Lapras",
+        "id": "0131",
+        "png": "pkmnlist/0131_Lapras/0131-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Eevee",
+        "id": "0133",
+        "png": "pkmnlist/0133_Eevee/0133-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Snorlax",
+        "id": "0143",
+        "png": "pkmnlist/0143_Snorlax/0143-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Garbodor",
+        "id": "0569",
+        "png": "pkmnlist/0569_Garbodor/0569-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Melmetal",
+        "id": "0809",
+        "png": "pkmnlist/0809_Melmetal/0809-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Corviknight",
+        "id": "0823",
+        "png": "pkmnlist/0823_Corviknight/0823-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Orbeetle",
+        "id": "0826",
+        "png": "pkmnlist/0826_Orbeetle/0826-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Drednaw",
+        "id": "0834",
+        "png": "pkmnlist/0834_Drednaw/0834-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Coalossal",
+        "id": "0839",
+        "png": "pkmnlist/0839_Coalossal/0839-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Flapple",
+        "id": "0841",
+        "png": "pkmnlist/0841_Flapple/0841-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Sandaconda",
+        "id": "0844",
+        "png": "pkmnlist/0844_Sandaconda/0844-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Toxtricity",
+        "id": "0849",
+        "png": "pkmnlist/0849_Toxtricity/0849-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Centiskorch",
+        "id": "0851",
+        "png": "pkmnlist/0851_Centiskorch/0851-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Hatterene",
+        "id": "0858",
+        "png": "pkmnlist/0858_Hatterene/0858-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Grimmsnarl",
+        "id": "0861",
+        "png": "pkmnlist/0861_Grimmsnarl/0861-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Alcremie",
+        "id": "0869",
+        "png": "pkmnlist/0869_Alcremie/0869-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Copperajah",
+        "id": "0879",
+        "png": "pkmnlist/0879_Copperajah/0879-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Duraludon",
+        "id": "0884",
+        "png": "pkmnlist/0884_Duraludon/0884-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Venusaur",
+        "id": "0003",
+        "png": "pkmnlist/0003_Venusaur/0003-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Blastoise",
+        "id": "0009",
+        "png": "pkmnlist/0009_Blastoise/0009-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Rillaboom",
+        "id": "0812",
+        "png": "pkmnlist/0812_Rillaboom/0812-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Cinderace",
+        "id": "0815",
+        "png": "pkmnlist/0815_Cinderace/0815-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Inteleon",
+        "id": "0818",
+        "png": "pkmnlist/0818_Inteleon/0818-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
+        ],
+        "isactive": true
+    },
+    {
+        "name": "Gigantimax Urshifu",
+        "id": "0892",
+        "png": "pkmnlist/0892_Urshifu/0892-gigantimax.png",
+        "elo": 1500,
+        "RD": 350,
+        "last_game": 0,
+        "generation": 8,
+        "variants": [
+            "gigantimax"
         ],
         "isactive": true
     }
