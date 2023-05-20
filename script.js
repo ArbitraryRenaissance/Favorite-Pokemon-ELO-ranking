@@ -684,12 +684,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         tierModal.style.display = "none";
     };
 
-    window.onclick = function (event) {
-        if (event.target === tierModal) {
-            tierModal.style.display = "none";
-        }
-    };
-
     const saveButton = document.querySelector('#saveButton');
     const cancelButton = document.querySelector('#cancelButton');
     const optionsContainer = document.querySelector("#optionsContainer");
@@ -699,6 +693,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     optionsButton.addEventListener("click", function () {
         optionsContainer.style.transform = `translateY(0)`;
     });
+    window.onclick = function (event) {
+        if (event.target === tierModal) {
+            tierModal.style.display = "none";
+        } else if (!optionsMenu.contains(event.target) && event.target !== optionsButton) {
+            optionsContainer.style.transform = `translateY(${optionsMenu.offsetHeight}px)`;
+        }
+    };    
 });
 
 window.onload = function() {
