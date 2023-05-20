@@ -121,8 +121,8 @@ async function getOptions() {
         }
         const data = {
             g1: true, g2: true, g3: true, g4: true, g5: true, g6: true, g7: true, g8: true, g9: true,
-            mega: true, gigantimax: true, gender: true,
-            alolan: true, galarian: true, hisuian: true, paldean: true
+            mega: false, gigantimax: false, gender: false,
+            alolan: false, galarian: false, hisuian: false, paldean: false
         };
         localStorage.setItem('options', JSON.stringify(data));
         return data;
@@ -305,10 +305,18 @@ function getRandomPokemonFromArray(pokemonArray) {
 
 function selectTwoPokemon(pokemonData) {
     // Filter out the inative ones
-    const activePokemon = pokemonData.filter(p => p.isactive);
+    let activePokemon = pokemonData.filter(p => p.isactive);
     if (activePokemon.length == 0) {
-        alert("No Pokémon satisfy your selected options.");
-        return;
+        alert("No Pokémon satisfy your selected options.  Reverting to default options...");
+        _options = {
+            g1: true, g2: true, g3: true, g4: true, g5: true, g6: true, g7: true, g8: true, g9: true,
+            mega: false, gigantimax: false, gender: false,
+            alolan: false, galarian: false, hisuian: false, paldean: false
+        };
+        setOptions();
+        saveOptions();
+        setActive();
+        activePokemon = _pokemonData.filter(p => p.isactive);
     }
     // Select the first pokemon: 
     // choose two random pokemon and go with the one with smaller last_game
@@ -648,6 +656,21 @@ function preloadImage(pokemon) {
 
 // This function manages the preload queue
 async function managePreloadQueue() {
+    // If the preloadQueue is somehow broken, refresh it
+    let isBroken = false;
+    _preloadQueue.forEach( m => {
+        if (!m.hasOwnProperty('pair') || m.pair == []) {
+            isBroken = true;
+        }
+        const pokemon1 = _pokemonData.find(p => p.name == m.pair[0].name);
+        const pokemon2 = _pokemonData.find(p => p.name == m.pair[1].name);
+        if (!pokemon1.isactive || !pokemon2.isactive) {
+            isBroken = true;
+        }
+    });
+    if(isBroken) {
+        _preloadQueue = [];
+    }
     // If there are less than 5 Pokemon pairs in the queue, add more
     while (_preloadQueue.length < 5) {
         const newPokemonPair = selectTwoPokemon(_pokemonData);
@@ -814,12 +837,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (event.target === tierModal) {
             tierModal.style.display = "none";
         } else if (!optionsMenu.contains(event.target) && event.target !== optionsButton && optionsActive) {
-            optionsContainer.style.transform = `translateY(${optionsMenu.offsetHeight}px)`;
+            const oldOptions = { ..._options };
             saveOptions();
             setActive();
-            _preloadQueue = [];
-            managePreloadQueue();
-            optionsActive = false;
+            const activePokemon = _pokemonData.filter(p => p.isactive);
+            if (activePokemon.length == 0) {
+                alert("No Pokémon satisfy your selected options.");
+            } else {
+                optionsContainer.style.transform = `translateY(${optionsMenu.offsetHeight}px)`;
+                _preloadQueue = [];
+                managePreloadQueue();
+                optionsActive = false;
+            }
         }
     };
 });
