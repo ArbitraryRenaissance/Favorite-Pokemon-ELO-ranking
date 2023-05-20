@@ -684,8 +684,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         tierModal.style.display = "none";
     };
 
-    const saveButton = document.querySelector('#saveButton');
-    const cancelButton = document.querySelector('#cancelButton');
     const optionsContainer = document.querySelector("#optionsContainer");
     const optionsMenu = document.querySelector("#optionsMenu");
     const optionsButton = document.querySelector("#optionsButton");

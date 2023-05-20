@@ -285,25 +285,6 @@ h1 {
     z-index: 1;
 }
 
-.options-menu-button {
-    float: right;
-    padding: 10px 20px;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #ddd;
-    background-color: #444;
-    border: 2px solid #888;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.options-menu-button:hover {
-    background-color: #5f572b;
-    color: #bba52b;
-    border-color: #bba52b;
-}
-
 #cancelButton {
     margin-left: 10px;
 }
