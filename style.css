@@ -297,6 +297,7 @@ h1 {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 20px;
 }
 
 .options-menu .checkbox-group div {
@@ -310,22 +311,14 @@ h1 {
     text-align: center;
 }
 
-#cancelButton {
-    margin-left: 10px;
-}
-
-.show {
-    transform: translateY(calc(-1 * 100%)); 
+.options-checkbox {
+    transform: scale(1.5);
 }
 
 .options-section {
     margin-bottom: 20px;
 }
 
-.checkbox-group {
-    display: flex;
-    gap: 20px;
-}
 
 #mainPageButton {
     position: absolute;
