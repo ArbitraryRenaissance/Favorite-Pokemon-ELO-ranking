@@ -55,7 +55,7 @@ h1 {
 }
 
 .pokemon-container img {
-    max-width: 100%;
+    max-width: 475px;
     height: calc(100% - 70px);
     object-fit: contain;
 }
