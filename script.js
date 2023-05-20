@@ -20,6 +20,7 @@ let _pokemon2;
 let _leaderboard;
 let _currentTier;
 let _preloadQueue;
+let _options;
 const imageCache = new Map();
 
 async function getPokemonData() {
@@ -112,6 +113,24 @@ async function getCurrentTier(competitionData) {
     return currentTier;
 }
 
+async function getOptions() {
+    try {
+        const localData = localStorage.getItem('options');
+        if (localData) {
+            return JSON.parse(localData);
+        }
+        const data = {
+            g1: true, g2: true, g3: true, g4: true, g5: true, g6: true, g7: true, g8: true, g9: true,
+            mega: true, gigantimax: true, gender: true,
+            alolan: true, galarian: true, hisuian: true, paldean: true
+        };
+        localStorage.setItem('options', JSON.stringify(data));
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 async function loadTierDescriptions(tier) {
     try {
         const response = await fetch(`${apiBaseUrl}/tier-descriptions?tier=${tier}`);
@@ -197,6 +216,14 @@ async function updateLeaderboard(leaderboard) {
     try {
         localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
     } catch (error) {
+        console.error(error);
+    }
+}
+
+async function updateOptions(options) {
+    try {
+        localStorage.setItem('options', JSON.stringify(options));
+    } catch(error) {
         console.error(error);
     }
 }
@@ -646,11 +673,32 @@ async function getNextPair() {
     return _preloadQueue[0].pair;
 }
 
+function setOptions() {
+    document.getElementById("gen1").checked = _options.g1;
+    document.getElementById("gen2").checked = _options.g2;
+    document.getElementById("gen3").checked = _options.g3;
+    document.getElementById("gen4").checked = _options.g4;
+    document.getElementById("gen5").checked = _options.g5;
+    document.getElementById("gen6").checked = _options.g6;
+    document.getElementById("gen7").checked = _options.g7;
+    document.getElementById("gen8").checked = _options.g8;
+    document.getElementById("gen9").checked = _options.g9;
+    document.getElementById("mega").checked = _options.mega;
+    document.getElementById("gigantimax").checked = _options.gigantimax;
+    document.getElementById("gender").checked = _options.gender;
+    document.getElementById("alolan").checked = _options.alolan;
+    document.getElementById("galarian").checked = _options.galarian;
+    document.getElementById("hisuian").checked = _options.hisuian;
+    document.getElementById("paldean").checked = _options.paldean;
+} 
+
 document.addEventListener("DOMContentLoaded", async function () {
     updatePokemonDataToLatestVersion();
+    _options = await getOptions();
     _pokemonData = await getPokemonData();
     _competitionData = await getCompetitionData();
     _currentTier = await getCurrentTier(_competitionData);
+    setOptions();
     updateElementVisibility();
 
     _leaderboard = await getLeaderboard();
@@ -697,10 +745,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         } else if (!optionsMenu.contains(event.target) && event.target !== optionsButton) {
             optionsContainer.style.transform = `translateY(${optionsMenu.offsetHeight}px)`;
         }
-    };    
+    };
 });
 
-window.onload = function() {
+window.onload = function () {
     const optionsContainer = document.querySelector(".options-container");
     const optionsMenu = document.querySelector(".options-menu");
 
