@@ -223,7 +223,7 @@ async function updateLeaderboard(leaderboard) {
 async function updateOptions(options) {
     try {
         localStorage.setItem('options', JSON.stringify(options));
-    } catch(error) {
+    } catch (error) {
         console.error(error);
     }
 }
@@ -304,10 +304,16 @@ function getRandomPokemonFromArray(pokemonArray) {
 }
 
 function selectTwoPokemon(pokemonData) {
+    // Filter out the inative ones
+    const activePokemon = pokemonData.filter(p => p.isactive);
+    if (activePokemon.length == 0) {
+        alert("No Pokémon satisfy your selected options.");
+        return;
+    }
     // Select the first pokemon: 
     // choose two random pokemon and go with the one with smaller last_game
-    let firstCandidate = getRandomPokemon(pokemonData);
-    let secondCandidate = getRandomPokemon(pokemonData);
+    let firstCandidate = getRandomPokemon(activePokemon);
+    let secondCandidate = getRandomPokemon(activePokemon);
 
     let firstPokemon = firstCandidate.last_game < secondCandidate.last_game ? firstCandidate :
         secondCandidate.last_game < firstCandidate.last_game ? secondCandidate :
@@ -316,11 +322,11 @@ function selectTwoPokemon(pokemonData) {
     // Select the second pokemon:
     // 5% chance: choose completely randomly
     // 95% chance: choose randomly from 20 pokemon with closest elo
-    let closePokemon = getClosestPokemon(firstPokemon, pokemonData);
+    let closePokemon = getClosestPokemon(firstPokemon, activePokemon);
     let secondPokemon;
     if (Math.random() < 0.05) {
         do {
-            secondPokemon = getRandomPokemon(pokemonData);
+            secondPokemon = getRandomPokemon(activePokemon);
         } while (firstPokemon.name === secondPokemon.name)
     } else {
         do {
@@ -690,7 +696,69 @@ function setOptions() {
     document.getElementById("galarian").checked = _options.galarian;
     document.getElementById("hisuian").checked = _options.hisuian;
     document.getElementById("paldean").checked = _options.paldean;
-} 
+}
+
+function saveOptions() {
+    _options.g1 = document.getElementById("gen1").checked;
+    _options.g2 = document.getElementById("gen2").checked;
+    _options.g3 = document.getElementById("gen3").checked;
+    _options.g4 = document.getElementById("gen4").checked;
+    _options.g5 = document.getElementById("gen5").checked;
+    _options.g6 = document.getElementById("gen6").checked;
+    _options.g7 = document.getElementById("gen7").checked;
+    _options.g8 = document.getElementById("gen8").checked;
+    _options.g9 = document.getElementById("gen9").checked;
+    _options.mega = document.getElementById("mega").checked;
+    _options.gigantimax = document.getElementById("gigantimax").checked;
+    _options.gender = document.getElementById("gender").checked;
+    _options.alolan = document.getElementById("alolan").checked;
+    _options.galarian = document.getElementById("galarian").checked;
+    _options.hisuian = document.getElementById("hisuian").checked;
+    _options.paldean = document.getElementById("paldean").checked;
+
+    updateOptions(_options);
+}
+
+function setActive() {
+    _pokemonData.forEach( pokemon => {
+        if (!_options.g1 && pokemon.generation == 1) {
+            pokemon.isactive = false;
+        } else if (!_options.g2 && pokemon.generation == 2) {
+            pokemon.isactive = false;
+        } else if (!_options.g3 && pokemon.generation == 3) {
+            pokemon.isactive = false;
+        } else if (!_options.g4 && pokemon.generation == 4) {
+            pokemon.isactive = false;
+        } else if (!_options.g5 && pokemon.generation == 5) {
+            pokemon.isactive = false;
+        } else if (!_options.g6 && pokemon.generation == 6) {
+            pokemon.isactive = false;
+        } else if (!_options.g7 && pokemon.generation == 7) {
+            pokemon.isactive = false;
+        } else if (!_options.g8 && pokemon.generation == 8) {
+            pokemon.isactive = false;
+        } else if (!_options.g9 && pokemon.generation == 9) {
+            pokemon.isactive = false;
+        } else if (!_options.mega && pokemon.variants.includes("mega")) {
+            pokemon.isactive = false;
+        } else if (!_options.gigantimax && pokemon.variants.includes("gigantimax")) {
+            pokemon.isactive = false;
+        } else if (!_options.gender && pokemon.variants.includes("mega")) {
+            pokemon.isactive = false;
+        } else if (!_options.alolan && pokemon.variants.includes("mega")) {
+            pokemon.isactive = false;
+        } else if (!_options.galarian && pokemon.variants.includes("mega")) {
+            pokemon.isactive = false;
+        } else if (!_options.hisuian && pokemon.variants.includes("mega")) {
+            pokemon.isactive = false;
+        } else if (!_options.paldean && pokemon.variants.includes("mega")) {
+            pokemon.isactive = false;
+        } else {
+            pokemon.isactive = true;
+        }
+    });
+    updatePokemonData(_pokemonData);
+}
 
 document.addEventListener("DOMContentLoaded", async function () {
     updatePokemonDataToLatestVersion();
@@ -699,6 +767,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     _competitionData = await getCompetitionData();
     _currentTier = await getCurrentTier(_competitionData);
     setOptions();
+    setActive();
     updateElementVisibility();
 
     _leaderboard = await getLeaderboard();
@@ -735,15 +804,22 @@ document.addEventListener("DOMContentLoaded", async function () {
     const optionsContainer = document.querySelector("#optionsContainer");
     const optionsMenu = document.querySelector("#optionsMenu");
     const optionsButton = document.querySelector("#optionsButton");
+    let optionsActive = false;
 
     optionsButton.addEventListener("click", function () {
         optionsContainer.style.transform = `translateY(0)`;
+        optionsActive = true;
     });
     window.onclick = function (event) {
         if (event.target === tierModal) {
             tierModal.style.display = "none";
-        } else if (!optionsMenu.contains(event.target) && event.target !== optionsButton) {
+        } else if (!optionsMenu.contains(event.target) && event.target !== optionsButton && optionsActive) {
             optionsContainer.style.transform = `translateY(${optionsMenu.offsetHeight}px)`;
+            saveOptions();
+            setActive();
+            _preloadQueue = [];
+            managePreloadQueue();
+            optionsActive = false;
         }
     };
 });
