@@ -75,23 +75,6 @@ async function getPreloadQueue() {
     }
 }
 
-async function getLeaderboard() {
-    try {
-        const localData = localStorage.getItem('leaderboard');
-        if (localData) {
-            return JSON.parse(localData);
-        }
-
-        const data = await generateLeaderboard(_pokemonData);
-
-        localStorage.setItem('leaderboard', JSON.stringify(data));
-
-        return data;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
 async function getCurrentTier(competitionData) {
     // Define the tier thresholds
     const tierThresholds = [5, 50, 100, 200, 500, 1000, 2000, 5000, 10000];
@@ -229,8 +212,7 @@ async function updateOptions(options) {
 }
 
 async function generateLeaderboard(pokemonData) {
-    const sortedPokemon = [...pokemonData].sort((a, b) => b.elo - a.elo); // Sort by ELO rating
-
+    const sortedPokemon = [...pokemonData].filter(v=>v.isactive).sort((a, b) => b.elo - a.elo); // Sort by ELO rating
     const leaderboard = sortedPokemon.map((pokemon, index) => {
         return {
             rank: index + 1,
@@ -793,7 +775,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     setActive();
     updateElementVisibility();
 
-    _leaderboard = await getLeaderboard();
+    _leaderboard = await generateLeaderboard(_pokemonData);
     _preloadQueue = await getPreloadQueue();
     managePreloadQueue();
     [_pokemon1, _pokemon2] = await getNextPair();
@@ -833,7 +815,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         optionsContainer.style.transform = `translateY(0)`;
         optionsActive = true;
     });
-    window.onclick = function (event) {
+    window.onclick = async function (event) {
         if (event.target === tierModal) {
             tierModal.style.display = "none";
         } else if (!optionsMenu.contains(event.target) && event.target !== optionsButton && optionsActive) {
@@ -847,6 +829,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 optionsContainer.style.transform = `translateY(${optionsMenu.offsetHeight}px)`;
                 _preloadQueue = [];
                 managePreloadQueue();
+                makeLeaderboard(await generateLeaderboard(_pokemonData));
                 optionsActive = false;
             }
         }
