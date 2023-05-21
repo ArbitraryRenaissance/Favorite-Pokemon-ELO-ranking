@@ -762,7 +762,7 @@ function setActive() {
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
-    updatePokemonDataToLatestVersion();
+    await updatePokemonDataToLatestVersion();
     _options = await getOptions();
     _pokemonData = await getPokemonData();
     _competitionData = await getCompetitionData();
