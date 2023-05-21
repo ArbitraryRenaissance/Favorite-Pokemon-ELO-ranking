@@ -749,15 +749,15 @@ function setActive() {
             pokemon.isactive = false;
         } else if (!_options.gigantimax && pokemon.variants.includes("gigantimax")) {
             pokemon.isactive = false;
-        } else if (!_options.gender && pokemon.variants.includes("mega")) {
+        } else if (!_options.gender && pokemon.variants.includes("f")) {
             pokemon.isactive = false;
-        } else if (!_options.alolan && pokemon.variants.includes("mega")) {
+        } else if (!_options.alolan && pokemon.variants.includes("alolan")) {
             pokemon.isactive = false;
-        } else if (!_options.galarian && pokemon.variants.includes("mega")) {
+        } else if (!_options.galarian && pokemon.variants.includes("galarian")) {
             pokemon.isactive = false;
-        } else if (!_options.hisuian && pokemon.variants.includes("mega")) {
+        } else if (!_options.hisuian && pokemon.variants.includes("hisuian")) {
             pokemon.isactive = false;
-        } else if (!_options.paldean && pokemon.variants.includes("mega")) {
+        } else if (!_options.paldean && pokemon.variants.includes("paldean")) {
             pokemon.isactive = false;
         } else {
             pokemon.isactive = true;
