@@ -139,11 +139,6 @@ async function updatePokemonDataToLatestVersion() {
     try {
         let pokemonData = await getPokemonData();
 
-        // Check if update is needed.
-        if (pokemonData.length >= 1152) {
-            return;
-        }
-
         const response = await fetch(`${apiBaseUrl}/pokemon-data-init`);
         const latestData = await response.json();
 
