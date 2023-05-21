@@ -208,7 +208,7 @@ async function updateOptions(options) {
 }
 
 async function generateLeaderboard(pokemonData) {
-    const sortedPokemon = [...pokemonData].filter(v=>v.isactive).sort((a, b) => b.elo - a.elo); // Sort by ELO rating
+    const sortedPokemon = [...pokemonData].filter(v => v.isactive).sort((a, b) => b.elo - a.elo); // Sort by ELO rating
     const leaderboard = sortedPokemon.map((pokemon, index) => {
         return {
             rank: index + 1,
@@ -369,8 +369,13 @@ async function undoLastMatch() {
     _preloadQueue.unshift({ pair: [_pokemon1, _pokemon2], preloaded: true });
 
     // update _pokemonData
-    _pokemonData[parseInt(_pokemon1.id) - 1] = _pokemon1;
-    _pokemonData[parseInt(_pokemon2.id) - 1] = _pokemon2;
+    // Find the indices of the pokemon in _pokemonData
+    let pokemon1Index = _pokemonData.findIndex(pokemon => pokemon.name === _pokemon1.name);
+    let pokemon2Index = _pokemonData.findIndex(pokemon => pokemon.name === _pokemon2.name);
+
+    // Update the data at those indices
+    if (pokemon1Index !== -1) _pokemonData[pokemon1Index] = _pokemon1;
+    if (pokemon2Index !== -1) _pokemonData[pokemon2Index] = _pokemon2;
 
     // regenerate the leaderboard
     _leaderboard = await generateLeaderboard(_pokemonData);
@@ -636,7 +641,7 @@ function preloadImage(pokemon) {
 async function managePreloadQueue() {
     // If the preloadQueue is somehow broken, refresh it
     let isBroken = false;
-    _preloadQueue.forEach( m => {
+    _preloadQueue.forEach(m => {
         if (!m.hasOwnProperty('pair') || m.pair == []) {
             isBroken = true;
         }
@@ -646,7 +651,7 @@ async function managePreloadQueue() {
             isBroken = true;
         }
     });
-    if(isBroken) {
+    if (isBroken) {
         _preloadQueue = [];
     }
     // If there are less than 5 Pokemon pairs in the queue, add more
@@ -721,7 +726,7 @@ function saveOptions() {
 }
 
 function setActive() {
-    _pokemonData.forEach( pokemon => {
+    _pokemonData.forEach(pokemon => {
         if (!_options.g1 && pokemon.generation == 1) {
             pokemon.isactive = false;
         } else if (!_options.g2 && pokemon.generation == 2) {
