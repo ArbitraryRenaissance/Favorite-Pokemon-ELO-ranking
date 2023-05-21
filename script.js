@@ -174,6 +174,7 @@ async function updatePokemonDataToLatestVersion() {
 
         // Save updated data.
         await updatePokemonData(pokemonData);
+        _pokemonData = pokemonData;
     } catch (error) {
         console.error(error);
     }
