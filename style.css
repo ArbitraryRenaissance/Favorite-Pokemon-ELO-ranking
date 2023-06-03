@@ -19,8 +19,14 @@ h1 {
     max-width: 1000px;
     text-align: center;
     display: flex;
-    flex-direction: column;
     margin: 0 auto;
+}
+
+#undo-button {
+    border-radius: 10px;
+    position: absolute;
+    left: 20px;
+    top: 50%;
 }
 
 .main-content {
@@ -85,80 +91,44 @@ h1 {
     top: 0;
     right: 0;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-.navigation-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1.2em;
+.page-button {
+    font-size: 1.5em;
     font-weight: bold;
-    color: #ddd;
+    padding: 10px 20px;
     background-color: #444;
+    color: #ddd;
     border: 2px solid #888;
-    border-radius: 0;
     cursor: pointer;
     transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
-.navigation-button:hover {
+.page-button:hover {
     background-color: #5f572b;
     color: #bba52b;
     border-color: #bba52b;
 }
 
-.navigation-button:active {
+.page-button:active {
     transform: translateY(2px);
 }
 
-.undo-button {
-    font-size: 1.5em;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 10px;
-    background-color: #444;
-    color: #ddd;
-    border: 1px solid #888;
-    cursor: pointer;
-    outline: none;
-    position: absolute;
-    left: 20px;
-    top: 50%;
+#lookup-button {
+    display: inline-block;
+    border-radius: 0;
+    margin: 20px auto;
 }
 
-.undo-button:hover {
-    background-color: #5f572b;
-    color: #bba52b;
-    border-color: #bba52b;
-}
-
-.draw-button {
+#draw-button {
     display: block;
     margin: 10px auto 20px auto;
-    font-size: 1.5em;
-    font-weight: bold;
-    padding: 10px 20px;
-    background-color: #444;
-    color: #ddd;
-    border: 2px solid #888;
-    cursor: pointer;
     text-align: center;
     text-decoration: none;
     border-radius: 10px;
     margin-top: 20px;
-}
-
-.draw-button:hover {
-    background-color: #5f572b;
-    color: #bba52b;
-    border-color: #bba52b;
-}
-
-.draw-button:active {
-    transform: translateY(2px);
-}
-
-#lookupPageButton {
-    margin: 20px auto;
 }
 
 .progress-bar-container {

@@ -11,7 +11,7 @@
 <body>
   <h1>Choose your favorite Pokémon!</h1>
   <div class="container">
-    <button id="undoButton" class="undo-button">Undo</button>
+    <button class="page-button" id="undo-button">Undo</button>
     <div class="main-content">
       <div class="pokemon-wrapper">
         <div class="pokemon-container" id="pokemon1">
@@ -23,7 +23,7 @@
           <p class="pokemon-name" id="pokemon2-name"></p>
         </div>
       </div>
-      <button id="draw-button" class="draw-button">I can't decide!</button>
+      <button id="draw-button" class="page-button" id="draw-button">I can't decide!</button>
       <div class="progress-bar-container">
         <div class="progress-text"></div>
         <div class="progress-bar">
@@ -32,16 +32,17 @@
         <div class="tier-text" id="tier-text"></div>
       </div>
     </div>
-  </div>
-  <div class="rhs-container">
-    <div class="hidden" id="leaderboard-table">
-      <h2>Leaderboard</h2>
-      <table>
-        <tbody>
-        </tbody>
-      </table>
+    <div class="rhs-container">
+      <div class="hidden" id="leaderboard-table">
+        <h2>Leaderboard</h2>
+        <table>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <button class="page-button hidden" id="lookup-button">Go to Lookup Page</button>
+      <button class="page-button" id="audit-button">Refresh Data</button>
     </div>
-    <button class="navigation-button hidden" id="lookupPageButton">Go to Lookup Page</button>
   </div>
 
   <div id="optionsContainer" class="options-container">

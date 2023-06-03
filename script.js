@@ -568,7 +568,7 @@ function showModal(title, description) {
 }
 
 function updateElementVisibility() {
-    const lookupPageButton = document.getElementById('lookupPageButton');
+    const lookupPageButton = document.getElementById('lookup-button');
     const leaderboardTable = document.getElementById('leaderboard-table');
 
     if (_currentTier >= 2) {
