@@ -557,14 +557,20 @@ function fixLastGame(pokemon, competition_history) {
     }
 }
 
-function showModal(title, description) {
-    const tierModal = document.getElementById("tierModal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalDescription = document.getElementById("modalDescription");
+function showModal(title, description, modal_id) {
+    const activeModal = document.getElementById(modal_id);
+    const modalTitle = activeModal.querySelector(".modalTitle");
+    const modalDescription = activeModal.querySelector(".modalDescription");
 
     modalTitle.textContent = title;
     modalDescription.textContent = description;
-    tierModal.style.display = "block";
+    activeModal.style.display = "block";
+    activeModal.querySelector(".modalCloseButton").onclick = function () {
+        activeModal.style.display = "none";
+    };
+    activeModal.addEventListener("click", () => {
+        activeModal.style.display = "none";
+    });
 }
 
 function updateElementVisibility() {
@@ -594,7 +600,7 @@ async function updateProgressBar(currentCompleted) {
         document.getElementById('tier-text').innerText = `Tier ${_currentTier}`;
         const tier_text = await loadTierDescriptions(_currentTier);
         updateElementVisibility();
-        showModal(tier_text.title, tier_text.description);
+        showModal(tier_text.title, tier_text.description, "tierModal");
         localStorage.setItem('currentTier', _currentTier);
     }
 
@@ -785,9 +791,21 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     document.getElementById('tier-text').innerText = `Tier ${_currentTier}`;
 
-    document.getElementById('lookupPageButton').addEventListener('click', () => {
+    document.getElementById('lookup-button').addEventListener('click', () => {
         window.location.href = '/lookup';
     });
+
+    document.getElementById('audit-button').addEventListener('click', () => {
+        const title_text = "Refresh Data";
+        const body_text = "If you used this site during an early stage \
+        of its development, you might have wound up with corrupted data because of \
+        my stupid code.  Refreshing your data will scrutinize your competition history \
+        and rebuild it properly.  None of your progress will be lost, but you may find \
+        that some pokemon have different ratings.  These new ratings will reflect their \
+        actual rating according to your choices.";
+        showModal(title_text, body_text, "audit-modal");
+    });
+
     document.getElementById("pokemon1").addEventListener("mouseup", function (event) {
         const x = event.clientX;
         const y = event.clientY;
@@ -801,11 +819,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById('draw-button').addEventListener('mouseup', function () {
         handleDraw(_pokemon1, _pokemon2, _pokemonData, _competitionData);
     });
-    document.getElementById('undoButton').addEventListener('mouseup', undoLastMatch);
-
-    document.getElementById("modalCloseButton").onclick = function () {
-        tierModal.style.display = "none";
-    };
+    document.getElementById('undo-button').addEventListener('mouseup', undoLastMatch);
 
     const optionsContainer = document.querySelector("#optionsContainer");
     const optionsMenu = document.querySelector("#optionsMenu");
