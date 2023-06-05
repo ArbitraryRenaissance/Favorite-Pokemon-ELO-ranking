@@ -439,22 +439,22 @@ function createCompetitionLogEntry(pokemon1, pokemon2, winner, competition_numbe
     return comp;
 }
 
-async function updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, competitionData, comp) {
-    // Update the values
-    pokemon1.elo += elo_info[0][0];
-    pokemon1.RD = elo_info[0][1];
-    pokemon1.last_game = competitionData.length + 1;
-    pokemon2.elo += elo_info[1][0];
-    pokemon2.RD = elo_info[1][1];
-    pokemon2.last_game = competitionData.length + 1;
+function updatePokemonDataAfterCompetition(pokemon1, pokemon2, elo_info, pokemonData, competitionNumber) {
     const index1 = pokemonData.findIndex(p => p.name === pokemon1.name);
     const index2 = pokemonData.findIndex(p => p.name === pokemon2.name);
-    if (index1 !== -1) {
-        pokemonData[index1] = pokemon1;
+    if (index1 !== -1 && index2 !== -1) {
+        pokemonData[index1].elo += elo_info[0][0];
+        pokemonData[index1].RD = elo_info[0][1];
+        pokemonData[index1].last_game = competitionNumber;
+        pokemonData[index2].elo += elo_info[1][0];
+        pokemonData[index2].RD = elo_info[1][1];
+        pokemonData[index2].last_game = competitionNumber;
     }
-    if (index2 !== -1) {
-        pokemonData[index2] = pokemon2;
-    }
+}
+
+async function updateGlobalData(pokemon1, pokemon2, elo_info, pokemonData, competitionData, comp) {
+    // Update the values
+    updatePokemonDataAfterCompetition(pokemon1, pokemon2, elo_info, pokemonData, competitionData.length + 1);
     competitionData.push(comp);
 
     // Update the globals
@@ -772,6 +772,24 @@ function setActive() {
     updatePokemonData(_pokemonData);
 }
 
+async function refreshData() {
+    const response = await fetch(`${apiBaseUrl}/pokemon-data-init`);
+    var newPokemonData = await response.json();
+    for (let i = 0; i < _competitionData.length; i++) {
+        const pokemon1 = _competitionData[i].pokemon1;
+        const pokemon2 = _competitionData[i].pokemon2;
+        const outcome = _competitionData[i].outcome;
+        const elo_info = calculateEloChange(pokemon1, pokemon2, outcome, i+1);
+        updatePokemonDataAfterCompetition(pokemon1, pokemon2, elo_info, newPokemonData, i+1);
+    }
+    _pokemonData = newPokemonData;
+    updatePokemonData(_pokemonData);
+
+    _leaderboard = await generateLeaderboard(_pokemonData);
+    updateLeaderboard(_leaderboard);
+    makeLeaderboard(_leaderboard);
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
     await updatePokemonDataToLatestVersion();
     _options = await getOptions();
@@ -820,6 +838,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         handleDraw(_pokemon1, _pokemon2, _pokemonData, _competitionData);
     });
     document.getElementById('undo-button').addEventListener('mouseup', undoLastMatch);
+    document.getElementById('confirm-refresh-button').addEventListener('click', refreshData);
 
     const optionsContainer = document.querySelector("#optionsContainer");
     const optionsMenu = document.querySelector("#optionsMenu");
